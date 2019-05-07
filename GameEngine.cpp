@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------
 #include "GameEngine.h"
 
+
 //-----------------------------------------------------------------
 // Static Variable Initialization
 //-----------------------------------------------------------------
@@ -255,6 +256,40 @@ BOOL GameEngine::InitJoystick()
   return TRUE;
 }
 
+void GameEngine::HandleCameraMovement(Camera* camera)
+{
+
+	POINT cameraOldPosition = {camera->GetPosition().x, camera->GetPosition().y };
+	POINT increment = { 0,0 };
+	bool inputSent = false;
+	if (GetAsyncKeyState(VK_LEFT))
+	{
+		inputSent = true;
+		increment.x -= 5;
+	}
+	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		inputSent = true;
+		increment.x += 5;
+	}
+	if (GetAsyncKeyState(VK_DOWN))
+	{
+		inputSent = true;
+		increment.y += 5;
+	}
+	if (GetAsyncKeyState(VK_UP))
+	{
+		inputSent = true;
+		increment.y -= 5;
+	}
+
+	if (inputSent)
+	{
+		camera->SetPosition(cameraOldPosition.x + increment.x, cameraOldPosition.y + increment.y);
+	}
+
+}
+
 void GameEngine::CaptureJoystick()
 {
   // Capture the joystick
@@ -325,12 +360,17 @@ void GameEngine::AddSprite(Sprite* pSprite)
   }
 }
 
-void GameEngine::DrawSprites(HDC hDC)
+void GameEngine::DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera* camera)
+{
+	backgroundBM->Draw(hDC,backgroundRect.left- camera->GetPosition().x, backgroundRect.top - camera->GetPosition().y, TRUE);
+}
+
+void GameEngine::DrawSprites(HDC hDC,Camera* camera)
 {
   // Draw the sprites in the sprite vector
   vector<Sprite*>::iterator siSprite;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
-    (*siSprite)->Draw(hDC);
+    (*siSprite)->Draw(hDC,camera);
 }
 
 void GameEngine::UpdateSprites()
@@ -442,7 +482,6 @@ BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 
 void GameEngine::CleanupSprites()
 {
-  Sprite* sprt2;
   // Delete and remove the sprites in the sprite vector
   vector<Sprite*>::iterator siSprite;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)

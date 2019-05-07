@@ -11,6 +11,7 @@
 #include <windows.h>
 #include "Bitmap.h"
 #include <list>
+#include "Camera.h"
 
 //-----------------------------------------------------------------
 // Custom Data Types
@@ -20,10 +21,11 @@ const SPRITEACTION  SA_NONE   = 0x0000L,
                     SA_KILL   = 0x0001L;
 
 typedef WORD        BOUNDSACTION;
-const BOUNDSACTION  BA_STOP   = 0,
-                    BA_WRAP   = 1,
-                    BA_BOUNCE = 2,
-                    BA_DIE    = 3;
+const BOUNDSACTION  BA_STOP		= 0,
+                    BA_WRAP		= 1,
+                    BA_BOUNCE	= 2,
+					BA_CONTINUE	= 3,
+                    BA_DIE		= 4;
 
 //-----------------------------------------------------------------
 // Sprite Class
@@ -58,7 +60,7 @@ public:
   // General Methods
   virtual SPRITEACTION  UpdatePosition();
   virtual void			Update() {};
-  void                  Draw(HDC hDC);
+  void                  Draw(HDC hDC, Camera* cam);
   BOOL                  IsPointInside(int x, int y);
   BOOL                  TestCollision(Sprite* pTestSprite);
 

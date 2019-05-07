@@ -13,6 +13,7 @@
 #include <vector>
 using namespace std;
 #include "Sprite.h"
+#include "Camera.h"
 #include <list>
 
 //-----------------------------------------------------------------
@@ -70,6 +71,7 @@ protected:
   UINT                m_uiJoystickID;
   RECT                m_rcJoystickTrip;
   vector<Sprite*>     m_vSprites;
+  
 
   // Helper Methods
   BOOL                CheckSpriteCollision(Sprite* pTestSprite);
@@ -91,7 +93,11 @@ public:
   void                ReleaseJoystick();
   void                CheckJoystick();
   void                AddSprite(Sprite* pSprite);
-  void                DrawSprites(HDC hDC);
+  void                DrawSprites(HDC hDC,Camera* camera);
+  void				  HandleCameraMovement(Camera* camera);
+
+  //TODO-> Add DrawBackground
+  void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera*camera);
   void                UpdateSprites();
   void                CleanupSprites();
   Sprite*             IsPointInSprite(int x, int y);

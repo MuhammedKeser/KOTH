@@ -13,6 +13,7 @@
 #include "GameEngine.h"
 #include "Bitmap.h"
 #include "Sprite.h"
+#include "TreeSprite.h"
 
 //#include <stack>
 //#include <queue>

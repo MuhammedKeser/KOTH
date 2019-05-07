@@ -7,11 +7,13 @@
 // Include Files
 //-----------------------------------------------------------------
 #include "Fore.h"
-#include "TreeSprite.h"
 
 //-----------------------------------------------------------------
 // Game Engine Functions
 //-----------------------------------------------------------------
+
+Camera camera;
+
 BOOL GameInitialize(HINSTANCE hInstance)
 {
   // Create the game engine
@@ -62,6 +64,8 @@ void GameStart(HWND hWindow)
   pSprite->SetVelocity(7, -3);
   _pGame->AddSprite((Sprite*)pSprite);
 
+  camera = Camera();
+
   // Set the initial drag info
   _pDragSprite = NULL;
 
@@ -96,14 +100,19 @@ void GameDeactivate(HWND hWindow)
 void GamePaint(HDC hDC)
 {
   // Draw the background forest
-  _pForestBitmap->Draw(hDC, 0, 0);
+  //_pForestBitmap->Draw(hDC, 0, 0);
+  RECT bgRect = { 0, 0, 0, 0 };
+  _pGame->DrawBackground(hDC, _pForestBitmap, bgRect,&camera);
 
   // Draw the sprites
-  _pGame->DrawSprites(hDC);
+  _pGame->DrawSprites(hDC,&camera);
 }
 
 void GameCycle()
 {
+	//Handle the input keys
+	_pGame->HandleCameraMovement(&camera);
+
   // Update the sprites
   _pGame->UpdateSprites();
 
@@ -131,7 +140,7 @@ void MouseButtonDown(int x, int y, BOOL bLeft)
   // See if a ball was clicked with the left mouse button
   if (bLeft && (_pDragSprite == NULL))
   {
-    if ((_pDragSprite = _pGame->IsPointInSprite(x, y)) != NULL)
+    if ((_pDragSprite = _pGame->IsPointInSprite(x+camera.GetPosition().x, y + camera.GetPosition().y)) != NULL)
     {
       // Capture the mouse
       SetCapture(_pGame->GetWindow());
@@ -156,8 +165,8 @@ void MouseMove(int x, int y)
   if (_pDragSprite != NULL)
   {
     // Move the sprite to the mouse cursor position
-    _pDragSprite->SetPosition(x - (_pDragSprite->GetWidth() / 2),
-      y - (_pDragSprite->GetHeight() / 2));
+    _pDragSprite->SetPosition(x+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
+      y+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
 
     // Force a repaint to redraw the sprites
     InvalidateRect(_pGame->GetWindow(), NULL, FALSE);

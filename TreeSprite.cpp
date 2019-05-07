@@ -1,3 +1,4 @@
+#pragma once
 #include "TreeSprite.h"
 
 TreeSprite::TreeSprite(Bitmap * pBitmap) :Sprite(pBitmap)
