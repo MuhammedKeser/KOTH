@@ -106,6 +106,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Fore.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TreeSprite.h" />

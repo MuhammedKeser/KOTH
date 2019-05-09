@@ -15,6 +15,7 @@ using namespace std;
 #include "Sprite.h"
 #include "Camera.h"
 #include <list>
+#include "InputManager.h"
 
 //-----------------------------------------------------------------
 // Joystick Flags

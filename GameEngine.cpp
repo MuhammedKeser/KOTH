@@ -23,9 +23,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   MSG         msg;
   static int  iTickTrigger = 0;
   int         iTickCount;
+  bool debugConsole = true;//Used to provide a console for debugging.
 
   if (GameInitialize(hInstance))
   {
+	  if (debugConsole)
+	  {
+		  AllocConsole();
+		  freopen("CONOUT$", "w+", stdout);
+	  }
     // Initialize the game engine
     if (!GameEngine::GetEngine()->Initialize(iCmdShow))
       return FALSE;

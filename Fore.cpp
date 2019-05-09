@@ -110,6 +110,12 @@ void GamePaint(HDC hDC)
 
 void GameCycle()
 {
+	//Update the inputs
+	Input::UpdateKeys();
+
+	if (Input::KeyReleased(Input::KEY::A))
+		std::cout << "A PRESSED!" << std::endl;
+
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 
