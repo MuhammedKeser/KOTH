@@ -187,10 +187,18 @@ LRESULT GameEngine::HandleEvent(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lP
     case WM_PAINT:
       HDC         hDC;
       PAINTSTRUCT ps;
+	  RECT windowRect;
+	  GetWindowRect(hWindow, &windowRect);
       hDC = BeginPaint(hWindow, &ps);
-
+	  
+	  //InvalidateRect(NULL, NULL, FALSE);
       // Paint the game
       GamePaint(hDC);
+
+	  ps.rcPaint.top = 0;
+	  ps.rcPaint.left = 0;
+	  ps.rcPaint.bottom = windowRect.bottom;
+	  ps.rcPaint.right = windowRect.right;
 
       EndPaint(hWindow, &ps);
       return 0;

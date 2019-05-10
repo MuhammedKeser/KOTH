@@ -99,6 +99,11 @@ void GameDeactivate(HWND hWindow)
 
 void GamePaint(HDC hDC)
 {
+	//Clear the screen
+	RECT windowRect = {0,0,_pGame->GetWidth(),_pGame->GetHeight()};
+	_pGame->DrawBackground(hDC, _pForestBitmap, windowRect, &camera);
+
+
   // Draw the background forest
   //_pForestBitmap->Draw(hDC, 0, 0);
   RECT bgRect = { 0, 0, 0, 0 };
@@ -126,12 +131,20 @@ void GameCycle()
   HWND  hWindow = _pGame->GetWindow();
   HDC   hDC = GetDC(hWindow);
 
+
+
   // Paint the game to the offscreen device context
   GamePaint(_hOffscreenDC);
+
+
 
   // Blit the offscreen bitmap to the game screen
   BitBlt(hDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
     _hOffscreenDC, 0, 0, SRCCOPY);
+
+  //Reset the offscreen device context
+  BitBlt(_hOffscreenDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
+	  _hOffscreenDC, 0, 0, BLACKNESS);
 
   // Cleanup
   ReleaseDC(hWindow, hDC);
