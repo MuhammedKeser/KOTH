@@ -11,6 +11,19 @@
 //-----------------------------------------------------------------
 // Sprite Constructor(s)/Destructor
 //-----------------------------------------------------------------
+Sprite::Sprite(HDC hDC, HINSTANCE hInstance)
+{
+	//m_pBitmap = (Bitmap*)malloc(sizeof(Bitmap*));
+	m_pBitmap = new Bitmap(hDC, BITMAP_ID, hInstance);
+	SetRect(&m_rcPosition, 0, 0, m_pBitmap->GetWidth(), m_pBitmap->GetHeight());
+	CalcCollisionRect();
+	m_ptVelocity.x = m_ptVelocity.y = 0;
+	m_iZOrder = 0;
+	SetRect(&m_rcBounds, 0, 0, 640, 480);
+	m_baBoundsAction = BA_STOP;
+	m_bHidden = FALSE;
+}
+
 Sprite::Sprite(Bitmap* pBitmap)
 {
   // Initialize the member variables

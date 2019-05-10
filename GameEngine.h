@@ -62,7 +62,7 @@ class GameEngine
 protected:
   // Member Variables
   static GameEngine*  m_pGameEngine;
-  HINSTANCE    m_hInstance;
+  HINSTANCE			  m_hInstance;
   HWND                m_hWindow;
   TCHAR               m_szWindowClass[32];
   TCHAR               m_szTitle[32];

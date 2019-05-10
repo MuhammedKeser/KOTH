@@ -12,6 +12,7 @@
 #include "Bitmap.h"
 #include <list>
 #include "Camera.h"
+#include "Resource.h"
 
 //-----------------------------------------------------------------
 // Custom Data Types
@@ -42,6 +43,10 @@ protected:
   RECT          m_rcBounds;
   BOUNDSACTION  m_baBoundsAction;
   BOOL          m_bHidden;
+  
+protected:
+	//Virtual variable used to set up bitmaps
+	UINT BITMAP_ID = IDB_GOLFBALL;
 
   // Helper Methods
   virtual void  CalcCollisionRect();
@@ -50,6 +55,7 @@ private:
 
 public:
   // Constructor(s)/Destructor
+	Sprite::Sprite(HDC hDC, HINSTANCE hInstance);
   Sprite(Bitmap* pBitmap);
   Sprite(Bitmap* pBitmap, RECT& rcBounds,
     BOUNDSACTION baBoundsAction = BA_STOP);
@@ -65,6 +71,7 @@ public:
   BOOL                  TestCollision(Sprite* pTestSprite);
 
   // Accessor Methods
+  void	  SetBitmap(Bitmap* bitmap) { m_pBitmap = bitmap; };
   RECT&   GetPosition()             { return m_rcPosition; };
   void    SetPosition(int x, int y);
   void    SetPosition(POINT ptPosition);

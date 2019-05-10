@@ -6,6 +6,7 @@ class Unit : public Sprite
 {
 public:
 	// Constructor(s)/Destructor
+	Unit(HDC hDC, HINSTANCE hInstance) :Sprite(hDC,hInstance){};
 	Unit(Bitmap* pBitmap) :Sprite(pBitmap) {};
 	Unit(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, baBoundsAction) {};
 	Unit(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :

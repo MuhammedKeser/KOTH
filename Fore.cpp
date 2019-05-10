@@ -72,7 +72,9 @@ void GameStart(HWND hWindow)
   
   //DEBUG
   Bitmap* gathererBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
-  Gatherer* gatherer = new Gatherer(gathererBitmap);
+  //Gatherer* gatherer = new Gatherer(gathererBitmap);
+  //gatherer->SetBitmap(_pGolfBallBitmap);
+  Gatherer* gatherer = new Gatherer(hDC, _hInstance);
   _pGame->AddSprite((Sprite*)gatherer);
 
 }
