@@ -14,7 +14,9 @@
 #include "Bitmap.h"
 #include "Sprite.h"
 #include "TreeSprite.h"
-
+#include "Player.h"
+#include "Unit.h"
+#include "Gatherer.h"
 //#include <stack>
 //#include <queue>
 

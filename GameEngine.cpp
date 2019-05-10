@@ -80,7 +80,6 @@ LRESULT CALLBACK WndProc(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lParam)
   return GameEngine::GetEngine()->HandleEvent(hWindow, msg, wParam, lParam);
 }
 
-
 //-----------------------------------------------------------------
 // GameEngine Constructor(s)/Destructor
 //-----------------------------------------------------------------

@@ -98,6 +98,7 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Fore.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Gatherer.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TreeSprite.cpp" />
   </ItemGroup>
@@ -106,10 +107,13 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Fore.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Gatherer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TreeSprite.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Fore.ico" />

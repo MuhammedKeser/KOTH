@@ -212,23 +212,23 @@ BOOL Bitmap::Create(HDC hDC, int iWidth, int iHeight, COLORREF crColor)
 
 void Bitmap::Draw(HDC hDC, int x, int y, BOOL bTrans, COLORREF crTransColor)
 {
-  if (m_hBitmap != NULL)
-  {
-    // Create a memory device context for the bitmap
-    HDC hMemDC = CreateCompatibleDC(hDC);
+	if (m_hBitmap != NULL)
+	{
+		// Create a memory device context for the bitmap
+		HDC hMemDC = CreateCompatibleDC(hDC);
 
-    // Select the bitmap into the device context
-    HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, m_hBitmap);
+		// Select the bitmap into the device context
+		HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, m_hBitmap);
 
-    // Draw the bitmap to the destination device context
-    if (bTrans)
-      TransparentBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0,
-        GetWidth(), GetHeight(), crTransColor);
-    else
-      BitBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0, SRCCOPY);
+		// Draw the bitmap to the destination device context
+		if (bTrans)
+			TransparentBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0,
+			GetWidth(), GetHeight(), crTransColor);
+		else
+			BitBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0, SRCCOPY);
 
-    // Restore and delete the memory device context
-    SelectObject(hMemDC, hOldBitmap);
-    DeleteDC(hMemDC);
-  }
+		// Restore and delete the memory device context
+		SelectObject(hMemDC, hOldBitmap);
+		DeleteDC(hMemDC);
+	}
 }

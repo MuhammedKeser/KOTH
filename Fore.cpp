@@ -47,6 +47,7 @@ void GameStart(HWND hWindow)
   _pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
 
   // Create the golf ball sprites
+  /*
   RECT    rcBounds = { 0, 0, 600, 400 };
   TreeSprite* pSprite;
   pSprite = new TreeSprite(_pGolfBallBitmap, rcBounds, BA_WRAP);
@@ -63,12 +64,16 @@ void GameStart(HWND hWindow)
   pSprite = new TreeSprite(_pGolfBallBitmap, rcBounds, BA_BOUNCE);
   pSprite->SetVelocity(7, -3);
   _pGame->AddSprite((Sprite*)pSprite);
-
+  */
   camera = Camera();
 
   // Set the initial drag info
   _pDragSprite = NULL;
-
+  
+  //DEBUG
+  Bitmap* gathererBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
+  Gatherer* gatherer = new Gatherer(gathererBitmap);
+  _pGame->AddSprite((Sprite*)gatherer);
 
 }
 
@@ -99,10 +104,7 @@ void GameDeactivate(HWND hWindow)
 
 void GamePaint(HDC hDC)
 {
-	//Clear the screen
-	RECT windowRect = {0,0,_pGame->GetWidth(),_pGame->GetHeight()};
-	_pGame->DrawBackground(hDC, _pForestBitmap, windowRect, &camera);
-
+	
 
   // Draw the background forest
   //_pForestBitmap->Draw(hDC, 0, 0);
@@ -131,18 +133,16 @@ void GameCycle()
   HWND  hWindow = _pGame->GetWindow();
   HDC   hDC = GetDC(hWindow);
 
-
-
   // Paint the game to the offscreen device context
   GamePaint(_hOffscreenDC);
-
-
 
   // Blit the offscreen bitmap to the game screen
   BitBlt(hDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
     _hOffscreenDC, 0, 0, SRCCOPY);
 
-  //Reset the offscreen device context
+  //TODO -> This is a bit buggy
+  //Reset the offscreen device context AKA clear the screen
+
   BitBlt(_hOffscreenDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
 	  _hOffscreenDC, 0, 0, BLACKNESS);
 
@@ -187,8 +187,6 @@ void MouseMove(int x, int y)
     _pDragSprite->SetPosition(x+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
       y+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
 
-    // Force a repaint to redraw the sprites
-    InvalidateRect(_pGame->GetWindow(), NULL, FALSE);
   }
 }
 
