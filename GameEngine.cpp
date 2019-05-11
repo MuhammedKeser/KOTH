@@ -516,3 +516,4 @@ Sprite* GameEngine::IsPointInSprite(int x, int y)
   // The point is not in a sprite
   return NULL;
 }
+

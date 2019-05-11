@@ -16,6 +16,7 @@ using namespace std;
 #include "Camera.h"
 #include <list>
 #include "InputManager.h"
+#include "Gatherer.h"
 
 
 //-----------------------------------------------------------------
@@ -102,6 +103,16 @@ public:
   void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera*camera);
   void                UpdateSprites();
   void                CleanupSprites();
+  //TODO->I cant move this into the CPP file. Why???
+  template <typename T>
+  T* CreateSprite(HDC hDC)
+  {
+	  //return new T(hDC, m_hInstance);
+	  T* newSprite = new T(hDC, m_hInstance);
+	  AddSprite((Sprite*)(newSprite));
+	  return newSprite;
+  };
+
   Sprite*             IsPointInSprite(int x, int y);
 
   // Accessor Methods
