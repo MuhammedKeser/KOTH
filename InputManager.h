@@ -2,8 +2,15 @@
 #include <windows.h>
 #include <list>
 #include <iostream>
+#include "Camera.h"
+
 namespace Input
 {
+	//TODOS
+	//The Static keyword in a namespace has a completely different meaning than the one in a class
+	//It means that all files that include this one have their own instances of the static variables/functions
+	//This stops the linker from complaining, but it means that you have to do all of your accessing in one file
+	//the static variables here are NOT global. Look into the extern keyword.
 
 	enum class KEY
 	{
@@ -40,6 +47,9 @@ namespace Input
 		LEFT,
 		RIGHT,
 		BACKSPACE,
+		MOUSEWHEEL,
+		MOUSELEFT,
+		MOUSERIGHT,
 		NUM_ITEMS
 	};
 
@@ -78,7 +88,10 @@ namespace Input
 			VK_LEFT,
 			VK_RIGHT,
 			VK_BACK,
-			34
+			VK_MBUTTON,
+			VK_LBUTTON,
+			VK_RBUTTON,
+			37
 
 	};
 
@@ -102,8 +115,26 @@ namespace Input
 		return KeyRelease[keyIndex];
 	};
 
+
+	//Mouse variables
+	//ScreenMouse variables show where the mouse is on the screen (in pixels)
+	static int ScreenMouseX=-1;
+	static int ScreenMouseY=-1;
+	static int WorldMouseX = -1;
+	static int WorldMouseY = -1;
+
+	//Needs to be called on and implemented by the game engine
+	static void UpdateMousePosition(int x,int y, Camera* camera)
+	{
+		ScreenMouseX = x;
+		ScreenMouseY = y;
+		WorldMouseX = x+camera->GetPosition().x;
+		WorldMouseY = y+camera->GetPosition().y;
+	}
+
 	static void UpdateKeys()
 	{
+
 		for (int i =0; i< sizeof(keyValues) / sizeof(int);i++)
 		{
 			bool keyInput = GetAsyncKeyState(keyValues[i]);
@@ -142,6 +173,6 @@ namespace Input
 			}
 
 		}
-	};
+	}
 
 }

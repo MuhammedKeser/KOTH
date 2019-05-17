@@ -225,6 +225,8 @@ LRESULT GameEngine::HandleEvent(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lP
     case WM_MOUSEMOVE:
       // Handle mouse movement
       MouseMove(LOWORD(lParam), HIWORD(lParam));
+	  //Input::UpdateMousePosition(LOWORD(lParam), HIWORD(lParam));
+
       return 0;
 
     case WM_DESTROY:
@@ -375,7 +377,7 @@ void GameEngine::AddSprite(Sprite* pSprite)
 
 void GameEngine::DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera* camera)
 {
-	backgroundBM->Draw(hDC,backgroundRect.left- camera->GetPosition().x, backgroundRect.top - camera->GetPosition().y, TRUE);
+	backgroundBM->Draw(hDC,backgroundRect.left- camera->GetPosition().x, backgroundRect.top - camera->GetPosition().y, 1, 1,TRUE);
 }
 
 void GameEngine::DrawSprites(HDC hDC,Camera* camera)

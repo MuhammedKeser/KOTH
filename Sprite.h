@@ -13,6 +13,7 @@
 #include <list>
 #include "Camera.h"
 #include "Resource.h"
+#include <iostream>
 
 //-----------------------------------------------------------------
 // Custom Data Types
@@ -33,10 +34,15 @@ const BOUNDSACTION  BA_STOP		= 0,
 //-----------------------------------------------------------------
 class Sprite
 {
+	//TODO -> Make these protected. DEBUG ging right now
+public:
+	//Make these floats, and just ceil or floor in the bitmap draw command
+	float xScale = 1.0f;
+	float yScale = 1.0f;
 protected:
   // Member Variables
   Bitmap*       m_pBitmap;
-  RECT          m_rcPosition,
+  RECT          m_rcPosition, //represents the top-left corner of the bitmap
                 m_rcCollision;
   POINT         m_ptVelocity;
   int           m_iZOrder;
@@ -69,6 +75,7 @@ public:
   void                  Draw(HDC hDC, Camera* cam);
   BOOL                  IsPointInside(int x, int y);
   BOOL                  TestCollision(Sprite* pTestSprite);
+  void					Scale(float x,float y);
 
   // Accessor Methods
   void	  SetBitmap(Bitmap* bitmap) { m_pBitmap = bitmap; };
@@ -110,7 +117,7 @@ inline void Sprite::CalcCollisionRect()
   int iXShrink = (m_rcPosition.left - m_rcPosition.right) / 12;
   int iYShrink = (m_rcPosition.top - m_rcPosition.bottom) / 12;
   CopyRect(&m_rcCollision, &m_rcPosition);
-  InflateRect(&m_rcCollision, iXShrink, iYShrink);
+  //InflateRect(&m_rcCollision, iXShrink, iYShrink);
 }
 
 //-----------------------------------------------------------------

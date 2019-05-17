@@ -44,8 +44,10 @@ public:
   BOOL Create(HDC hDC, LPTSTR szFileName);
   BOOL Create(HDC hDC, UINT uiResID, HINSTANCE hInstance);
   BOOL Create(HDC hDC, int iWidth, int iHeight, COLORREF crColor);
-  void Draw(HDC hDC, int x, int y, BOOL bTrans = FALSE,
+  void Draw(HDC hDC, int x, int y, float xScale, float yScale,BOOL bTrans = FALSE,
     COLORREF crTransColor = RGB(255, 0, 255));
   int  GetWidth() { return m_iWidth; };
   int  GetHeight() { return m_iHeight; };
+  void SetWidth(int width) { m_iWidth = width; };
+  void SetHeight(int height) { m_iHeight = height; };
 };

@@ -14,6 +14,47 @@
 
 Camera camera;
 
+//DEBUG
+std::list<Sprite> selectedSprites;
+int originMouseX = -1;
+int originMouseY = -1;
+bool selectMode = false;
+RECT    selectBounds = { 0, 0, 600, 400 };
+TreeSprite* selectSprite;
+Bitmap* _pSelectBitmap;
+void SelectSprites()
+{
+	if (Input::KeyPressed(Input::KEY::MOUSELEFT))
+	{
+		selectMode = true;
+		originMouseX=Input::WorldMouseX;
+		originMouseY=Input::WorldMouseY;
+
+		selectSprite = new TreeSprite(_pSelectBitmap, selectBounds, BA_WRAP);
+		selectSprite->SetPosition(Input::WorldMouseX, Input::WorldMouseY);
+		_pGame->AddSprite((Sprite*)selectSprite);
+	}
+
+	if (selectMode)
+	{
+		if (Input::KeyHeld(Input::KEY::MOUSELEFT))
+		{
+			selectSprite->Scale((float)(Input::WorldMouseX - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::WorldMouseY - originMouseY) / (float)selectSprite->GetHeight());
+			//_pSelectBitmap->SetWidth(Input::MouseX - originMouseX);
+			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
+			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
+		}
+
+		if (Input::KeyReleased(Input::KEY::MOUSELEFT))
+		{
+			selectMode = false;
+			originMouseX = -1;
+			originMouseY = -1;
+			
+		}
+	}
+}
+
 BOOL GameInitialize(HINSTANCE hInstance)
 {
   // Create the game engine
@@ -45,6 +86,7 @@ void GameStart(HWND hWindow)
   HDC hDC = GetDC(hWindow);
   _pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
   _pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+  _pSelectBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
 
   // Create the golf ball sprites
   /*
@@ -124,8 +166,7 @@ void GameCycle()
 	//Update the inputs
 	Input::UpdateKeys();
 
-	if (Input::KeyReleased(Input::KEY::A))
-		std::cout << "A PRESSED!" << std::endl;
+	SelectSprites();
 
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
@@ -172,6 +213,9 @@ void MouseButtonDown(int x, int y, BOOL bLeft)
       MouseMove(x, y);
     }
   }
+
+
+
 }
 
 void MouseButtonUp(int x, int y, BOOL bLeft)
@@ -185,11 +229,14 @@ void MouseButtonUp(int x, int y, BOOL bLeft)
 
 void MouseMove(int x, int y)
 {
+	Input::UpdateMousePosition(x, y,&camera);
+
+	//std::cout << Input::MouseX<<std::endl;
   if (_pDragSprite != NULL)
   {
     // Move the sprite to the mouse cursor position
-    _pDragSprite->SetPosition(x+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
-      y+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
+    _pDragSprite->SetPosition(Input::WorldMouseX+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
+      Input::WorldMouseY+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
 
   }
 }

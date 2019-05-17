@@ -77,6 +77,34 @@ Sprite::~Sprite()
 //-----------------------------------------------------------------
 // Sprite General Methods
 //-----------------------------------------------------------------
+void Sprite::Scale(float x,float y)
+{
+	//Set the actual new values
+	xScale = x;
+	yScale = y;
+
+
+
+	//std::cout << "New x scale: " << xScale<< std::endl;
+
+	int widthOffset = floor((float)GetWidth() * xScale);
+	int heightOffset = floor((float)GetHeight() * yScale);
+
+
+	SetRect(&m_rcPosition,
+		widthOffset >= 0 ? m_rcPosition.left : m_rcPosition.right + widthOffset,
+		heightOffset >= 0 ? m_rcPosition.top : m_rcPosition.bottom + heightOffset,
+		widthOffset >= 0 ? (m_rcPosition.left + widthOffset) : m_rcPosition.right,
+		heightOffset >= 0 ? (m_rcPosition.top + heightOffset) : m_rcPosition.bottom);
+	
+	CopyRect(&m_rcCollision, &m_rcPosition);
+
+
+	std::cout << "New right: " << m_rcPosition.left << std::endl;
+
+	//m_rcCollision.bottom
+}
+
 SPRITEACTION Sprite::UpdatePosition()
 {
 	// Update the position
@@ -176,7 +204,12 @@ void Sprite::Draw(HDC hDC,Camera* cam)
 {
   // Draw the sprite if it isn't hidden
   if (m_pBitmap != NULL && !m_bHidden)
-    m_pBitmap->Draw(hDC,m_rcPosition.left- cam->GetPosition().x, m_rcPosition.top- cam->GetPosition().y, TRUE);
+    m_pBitmap->Draw(hDC,
+		xScale>=0? m_rcPosition.left- cam->GetPosition().x : m_rcPosition.right - cam->GetPosition().x,
+		yScale>=0? m_rcPosition.top- cam->GetPosition().y : m_rcPosition.bottom - cam->GetPosition().y,
+		xScale, 
+		yScale,
+		TRUE);
     //m_pBitmap->Draw(hDC, m_rcPosition.left, m_rcPosition.top, TRUE);
 }
 

@@ -7,7 +7,7 @@
 // Include Files
 //-----------------------------------------------------------------
 #include "Bitmap.h"
-
+#include <math.h>
 //-----------------------------------------------------------------
 // Bitmap Constructor(s)/Destructor
 //-----------------------------------------------------------------
@@ -210,7 +210,7 @@ BOOL Bitmap::Create(HDC hDC, int iWidth, int iHeight, COLORREF crColor)
   return TRUE;
 }
 
-void Bitmap::Draw(HDC hDC, int x, int y, BOOL bTrans, COLORREF crTransColor)
+void Bitmap::Draw(HDC hDC, int x, int y, float xScale, float yScale,BOOL bTrans, COLORREF crTransColor)
 {
 	if (m_hBitmap != NULL)
 	{
@@ -222,10 +222,13 @@ void Bitmap::Draw(HDC hDC, int x, int y, BOOL bTrans, COLORREF crTransColor)
 
 		// Draw the bitmap to the destination device context
 		if (bTrans)
-			TransparentBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0,
-			GetWidth(), GetHeight(), crTransColor);
+			StretchBlt(hDC, x, y, floor((float)GetWidth()*xScale), floor((float)GetHeight()*yScale), hMemDC, 0, 0, GetWidth(), GetHeight(), SRCCOPY);
+
+			//TransparentBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0,
+			//GetWidth(), GetHeight(), crTransColor);
 		else
-			BitBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0, SRCCOPY);
+			StretchBlt(hDC, x, y, GetWidth()*5, GetHeight(), hMemDC, 0, 0, GetWidth(), GetHeight() ,SRCCOPY);
+			//BitBlt(hDC, x, y, GetWidth(), GetHeight(), hMemDC, 0, 0, SRCCOPY);
 
 		// Restore and delete the memory device context
 		SelectObject(hMemDC, hOldBitmap);

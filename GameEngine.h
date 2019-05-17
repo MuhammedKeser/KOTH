@@ -99,10 +99,13 @@ public:
   void                DrawSprites(HDC hDC,Camera* camera);
   void				  HandleCameraMovement(Camera* camera);
 
+  
+
   //TODO-> Add DrawBackground
   void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera*camera);
   void                UpdateSprites();
   void                CleanupSprites();
+
   //TODO->I cant move this into the CPP file. Why???
   template <typename T>
   T* CreateSprite(HDC hDC)
@@ -125,8 +128,7 @@ public:
   int       GetWidth() { return m_iWidth; };
   int       GetHeight() { return m_iHeight; };
   int       GetFrameDelay() { return m_iFrameDelay; };
-  void      SetFrameRate(int iFrameRate) { m_iFrameDelay = 1000 /
-              iFrameRate; };
+  void      SetFrameRate(int iFrameRate) { m_iFrameDelay = 1000 /iFrameRate; };
   BOOL      GetSleep() { return m_bSleep; };
   void      SetSleep(BOOL bSleep) { m_bSleep = bSleep; };
 };
