@@ -15,7 +15,7 @@
 #include "Resource.h"
 #include <iostream>
 #include "InputManager.h"
-
+#include <string>
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
@@ -37,9 +37,10 @@ class Sprite
 {
 	//TODO -> Make these protected. DEBUG ging right now
 public:
-	//Make these floats, and just ceil or floor in the bitmap draw command
-	float xScale = 1.0f;
-	float yScale = 1.0f;
+	float	xScale = 1.0f;
+	float	yScale = 1.0f;
+	BOOL	isStatic = false;//If true, this object doesn't check for collision but can be checked for collision
+	std::string name = "";//DEBUGGING PURPOSES
 protected:
   // Member Variables
   Bitmap*       m_pBitmap;
@@ -50,7 +51,6 @@ protected:
   RECT          m_rcBounds;
   BOUNDSACTION  m_baBoundsAction;
   BOOL          m_bHidden;
-  
 protected:
 	//Virtual variable used to set up bitmaps
 	UINT BITMAP_ID = IDB_GOLFBALL;

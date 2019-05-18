@@ -210,6 +210,8 @@ void GenerateMap()
 				newSprite->SetBitmap(_pGolfBallBitmap);
 				RECT rect = {newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i+1) };
 				newSprite->SetPosition(rect);
+				newSprite->isStatic = true;
+				newSprite->name = "WALL";
 			}
 			std::cout << gameMap[i][j];
 		}
@@ -292,6 +294,11 @@ void GameStart(HWND hWindow)
   //_pGame->AddSprite((Sprite*)gatherer);
 
   Gatherer* gatherer = (_pGame->CreateSprite<Gatherer>(hDC));
+  //Debug->The static sprite optimization really helped!
+  for (int i = 0; i < 100; i++)
+  {
+	  (_pGame->CreateSprite<Gatherer>(hDC));
+  }
 
 }
 

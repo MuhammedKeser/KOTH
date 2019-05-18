@@ -439,10 +439,15 @@ void GameEngine::UpdateSprites()
 //-----------------------------------------------------------------
 BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 {
+	//Static sprites shouldn't check for collision
+	if (pTestSprite->isStatic)
+		return FALSE;
+
   // See if the sprite has collided with any other sprites
   vector<Sprite*>::iterator siSprite;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
   {
+
     // Make sure not to check for collision with itself
     if (pTestSprite == (*siSprite))
       continue;
