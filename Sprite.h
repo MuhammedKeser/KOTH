@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Resource.h"
 #include <iostream>
+#include "InputManager.h"
 
 //-----------------------------------------------------------------
 // Custom Data Types

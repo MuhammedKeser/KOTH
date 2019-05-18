@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include <iostream>
 
+
 class TreeSprite : public Sprite
 {
 public:
@@ -9,6 +10,7 @@ public:
 	TreeSprite(Bitmap* pBitmap);
 	TreeSprite(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP);
 	TreeSprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP);
+	virtual void Update() override;
 	virtual ~TreeSprite() {};
 
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;

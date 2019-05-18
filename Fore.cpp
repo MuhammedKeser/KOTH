@@ -24,28 +24,28 @@ TreeSprite* selectSprite;
 Bitmap* _pSelectBitmap;
 void SelectSprites()
 {
-	if (Input::KeyPressed(Input::KEY::MOUSELEFT))
+	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
 	{
 		selectMode = true;
-		originMouseX=Input::WorldMouseX;
-		originMouseY=Input::WorldMouseY;
+		originMouseX=Input::GetWorldMouseX();
+		originMouseY=Input::GetWorldMouseY();
 
 		selectSprite = new TreeSprite(_pSelectBitmap, selectBounds, BA_WRAP);
-		selectSprite->SetPosition(Input::WorldMouseX, Input::WorldMouseY);
+		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		_pGame->AddSprite((Sprite*)selectSprite);
 	}
 
 	if (selectMode)
 	{
-		if (Input::KeyHeld(Input::KEY::MOUSELEFT))
+		if (Input::KeyHeld(InputKeys::KEY::MOUSELEFT))
 		{
-			selectSprite->Scale((float)(Input::WorldMouseX - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::WorldMouseY - originMouseY) / (float)selectSprite->GetHeight());
+			selectSprite->Scale((float)(Input::GetWorldMouseX() - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::GetWorldMouseY() - originMouseY) / (float)selectSprite->GetHeight());
 			//_pSelectBitmap->SetWidth(Input::MouseX - originMouseX);
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
 		}
 
-		if (Input::KeyReleased(Input::KEY::MOUSELEFT))
+		if (Input::KeyReleased(InputKeys::KEY::MOUSELEFT))
 		{
 			selectMode = false;
 			originMouseX = -1;
@@ -235,8 +235,8 @@ void MouseMove(int x, int y)
   if (_pDragSprite != NULL)
   {
     // Move the sprite to the mouse cursor position
-    _pDragSprite->SetPosition(Input::WorldMouseX+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
-      Input::WorldMouseY+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
+    _pDragSprite->SetPosition(Input::GetWorldMouseX()+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
+      Input::GetWorldMouseY()+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
 
   }
 }

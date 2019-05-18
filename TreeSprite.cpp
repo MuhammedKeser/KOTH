@@ -14,6 +14,15 @@ TreeSprite::TreeSprite(Bitmap * pBitmap, POINT ptPosition, POINT ptVelocity, int
 {
 }
 
+//DEBUG
+void TreeSprite::Update() 
+{
+	if (Input::KeyReleased(InputKeys::KEY::D))
+	{
+		Scale(xScale+0.2f,yScale+0.3f);
+	}
+}
+
 void TreeSprite::OnCollisionEnter(Sprite * otherSprite)
 {
 	//Checking the sprite type

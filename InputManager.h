@@ -4,15 +4,9 @@
 #include <iostream>
 #include "Camera.h"
 
-namespace Input
+namespace InputKeys
 {
-	//TODOS
-	//The Static keyword in a namespace has a completely different meaning than the one in a class
-	//It means that all files that include this one have their own instances of the static variables/functions
-	//This stops the linker from complaining, but it means that you have to do all of your accessing in one file
-	//the static variables here are NOT global. Look into the extern keyword.
-
-	enum class KEY
+	static enum class KEY
 	{
 		A,
 		B,
@@ -95,84 +89,109 @@ namespace Input
 
 	};
 
-	static bool* KeyPress=(bool*)calloc(sizeof(keyValues)/sizeof(unsigned int),sizeof(bool));
-	static bool* KeyHold=(bool*) calloc(sizeof(keyValues) / sizeof(unsigned int),sizeof(bool));
-	static bool* KeyRelease=(bool*)calloc(sizeof(keyValues) / sizeof(unsigned int),sizeof(bool));
-
-	static bool KeyPressed(KEY keyCode)
-	{
-		int keyIndex = static_cast<int>(keyCode);
-		return KeyPress[keyIndex];
-	};
-	static bool KeyHeld(KEY keyCode)
-	{
-		int keyIndex = static_cast<int>(keyCode);
-		return KeyHold[keyIndex];
-	};
-	static bool KeyReleased(KEY keyCode)
-	{
-		int keyIndex = static_cast<int>(keyCode);
-		return KeyRelease[keyIndex];
-	};
+};
 
 
-	//Mouse variables
-	//ScreenMouse variables show where the mouse is on the screen (in pixels)
-	static int ScreenMouseX=-1;
-	static int ScreenMouseY=-1;
-	static int WorldMouseX = -1;
-	static int WorldMouseY = -1;
+
+class Input
+{
+	//TODOS
+	//The Static keyword in a namespace has a completely different meaning than the one in a class
+	//It means that all files that include this one have their own instances of the static variables/functions
+	//This stops the linker from complaining, but it means that you have to do all of your accessing in one file
+	//the static variables here are NOT global. Look into the extern keyword.
+public:
+	
+	static int GetScreenMouseX() { return input->ScreenMouseX; }
+	static int GetScreenMouseY() { return input->ScreenMouseY; }
+	static int GetWorldMouseX() { return input->WorldMouseX; }
+	static int GetWorldMouseY() { return input->WorldMouseY; }
+
+	static bool KeyPressed(InputKeys::KEY keyCode)
+	{
+		
+		int keyIndex = static_cast<int>(keyCode);
+		return input->KeyPress[keyIndex];
+	};
+	static bool KeyHeld(InputKeys::KEY keyCode)
+	{
+		
+		int keyIndex = static_cast<int>(keyCode);
+		return input->KeyHold[keyIndex];
+	};
+	static bool KeyReleased(InputKeys::KEY keyCode)
+	{
+		
+		int keyIndex = static_cast<int>(keyCode);
+		return input->KeyRelease[keyIndex];
+	};
 
 	//Needs to be called on and implemented by the game engine
-	static void UpdateMousePosition(int x,int y, Camera* camera)
+	static void UpdateMousePosition(int x, int y, Camera* camera)
 	{
-		ScreenMouseX = x;
-		ScreenMouseY = y;
-		WorldMouseX = x+camera->GetPosition().x;
-		WorldMouseY = y+camera->GetPosition().y;
+		
+		input->ScreenMouseX = x;
+		input->ScreenMouseY = y;
+		input->WorldMouseX = x + camera->GetPosition().x;
+		input->WorldMouseY = y + camera->GetPosition().y;
 	}
 
 	static void UpdateKeys()
 	{
-
-		for (int i =0; i< sizeof(keyValues) / sizeof(int);i++)
+		
+		for (int i = 0; i < sizeof(InputKeys::keyValues) / sizeof(int); i++)
 		{
-			bool keyInput = GetAsyncKeyState(keyValues[i]);
+			bool keyInput = GetAsyncKeyState(InputKeys::keyValues[i]);
 
 			//Reset all key releases
-			KeyRelease[i] =false;
+			input->KeyRelease[i] = false;
 
 
 			if (keyInput)
 			{
 				//If the key was pressed the last frame, it's currently being held
-				if (KeyPress[i])
+				if (input->KeyPress[i])
 				{
-					KeyHold[i] = true;
-					KeyPress[i] = false;
+					input->KeyHold[i] = true;
+					input->KeyPress[i] = false;
 				}
 				//If the key wasn't pressed the last frame
-				if (!KeyPress[i] && !KeyHold[i])
-				{
-				
-					KeyPress[i] = true;
-				}
+				if (!input->KeyPress[i] && !input->KeyHold[i])
+					input->KeyPress[i] = true;
 			}
-			
+
 
 			if (!keyInput)
 			{
 
 				//If the key was held or pressed the last frame, and it hasnt been released yet, it should be released
-				if ((KeyHold[i] || KeyPress[i]) && !KeyRelease[i])
+				if ((input->KeyHold[i] || input->KeyPress[i]) && !input->KeyRelease[i])
 				{
-					KeyHold[i] = false;
-					KeyPress[i] = false;
-					KeyRelease[i] = true;
+					input->KeyHold[i] = false;
+					input->KeyPress[i] = false;
+					input->KeyRelease[i] = true;
 				}
 			}
 
 		}
 	}
 
-}
+
+private:
+	//The singleton
+	static Input* input;
+
+	//Mouse variables
+	//ScreenMouse variables show where the mouse is on the screen (in pixels)
+	int ScreenMouseX=-1;
+	int ScreenMouseY=-1;
+	int WorldMouseX = -1;
+	int WorldMouseY = -1;
+
+
+	bool* KeyPress = (bool*)calloc(sizeof(InputKeys::keyValues) / sizeof(unsigned int), sizeof(bool));
+	bool* KeyHold = (bool*)calloc(sizeof(InputKeys::keyValues) / sizeof(unsigned int), sizeof(bool));
+	bool* KeyRelease = (bool*)calloc(sizeof(InputKeys::keyValues) / sizeof(unsigned int), sizeof(bool));
+
+
+};
