@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+class Player;
 #include "Player.h"
 
 class Unit : public Sprite
@@ -15,11 +16,12 @@ public:
 
 //Members
 private:
-	Player m_player;
+	Player *m_player;
 
 //Methods
 public:
-	const Player& GetPlayer() { return m_player; }
-	void SetPlayer(Player* player) { m_player = *player; }
+	const Player& GetPlayer() { return *m_player; }
+	void SetPlayer(Player* player) { m_player = player; }
+
 
 };

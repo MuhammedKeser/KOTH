@@ -110,6 +110,7 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Gatherer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sprite.h" />

@@ -17,6 +17,7 @@
 #include "Player.h"
 #include "Unit.h"
 #include "Gatherer.h"
+#include "Obstacle.h"
 //#include <stack>
 //#include <queue>
 

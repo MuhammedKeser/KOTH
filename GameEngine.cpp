@@ -507,6 +507,19 @@ void GameEngine::CleanupSprites()
   }
 }
 
+void GameEngine::DeleteSprite(Sprite* spriteToDelete)
+{
+	vector<Sprite*>::iterator siSprite;
+	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	{
+		if (*siSprite == spriteToDelete)
+		{
+			m_vSprites.erase(siSprite);
+			break;
+		}
+	}
+}
+
 Sprite* GameEngine::IsPointInSprite(int x, int y)
 {
   // See if the point is in a sprite in the sprite vector

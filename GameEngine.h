@@ -98,6 +98,7 @@ public:
   void                AddSprite(Sprite* pSprite);
   void                DrawSprites(HDC hDC,Camera* camera);
   void				  HandleCameraMovement(Camera* camera);
+  void				  DeleteSprite(Sprite* spriteToDelete);
 
   
 

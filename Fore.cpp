@@ -22,6 +22,7 @@ bool selectMode = false;
 RECT    selectBounds = { 0, 0, 600, 400 };
 TreeSprite* selectSprite;
 Bitmap* _pSelectBitmap;
+
 void SelectSprites()
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
@@ -32,6 +33,7 @@ void SelectSprites()
 
 		selectSprite = new TreeSprite(_pSelectBitmap, selectBounds, BA_WRAP);
 		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
+		selectSprite->Scale(0.0f, 0.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
 	}
 
@@ -50,9 +52,14 @@ void SelectSprites()
 			selectMode = false;
 			originMouseX = -1;
 			originMouseY = -1;
-			
+			_pGame->DeleteSprite(selectSprite);
 		}
 	}
+}
+
+void GenerateMap()
+{
+
 }
 
 BOOL GameInitialize(HINSTANCE hInstance)
@@ -71,10 +78,163 @@ BOOL GameInitialize(HINSTANCE hInstance)
   return TRUE;
 }
 
+int rowCount = 32;
+int colCount = 64;
+int ** gameMap = new int * [rowCount];
+
 void GameStart(HWND hWindow)
 {
-  // Seed the random number generator
-  srand(GetTickCount());
+
+
+	// Seed the random number generator
+	srand(GetTickCount());
+
+	//Initialize the map
+	for (int i = 0; i < rowCount; i++)
+	{
+		gameMap[i] = (int*)calloc(colCount,sizeof(int));
+	}
+
+	//Fill in the borders
+	for (int i = 0; i < rowCount; i++)
+	{
+		for (int j = 0; j < colCount; j++)
+		{
+			if(i==0 || i==rowCount-1||j==0||j==colCount-1)
+				gameMap[i][j] = 1;
+		}
+	}
+
+	//Provide center obstacles
+	for (int i = 0; i < rowCount; i++)
+	{
+		for (int j = 0; j < colCount; j++)
+		{
+			//The closer it is to the midpoint to the center, the higher the likelyhood
+			if (rand() % (abs(abs((i - rowCount / 2))-rowCount/4) + 1) < 1
+				&& rand() % (abs(abs((j - colCount / 2))-colCount/4) + 1) < 1)
+				gameMap[i][j] = 1;
+			
+			//The closer it is to the center, the higher the likelyhood
+			if (rand() % (abs(i - rowCount / 2)+ 1) < 1
+				&& rand() % (abs(j - colCount / 2) + 1) < 1)
+				gameMap[i][j] = 1;
+		}
+	}
+
+	//todo->check 4 adjacent cells around each cell. If there's not even a single 1-valued cell, make this cell (and 3 random cells 1 cell adjacent to it) equal to 1
+
+	//Fill in with some random obstacles
+	int roundCount = 7;
+	for (int curRound = 0; curRound < roundCount; curRound++)
+	{
+		for (int i = 0; i < rowCount; i++)
+		{
+			for (int j = 0; j < colCount; j++)
+			{
+				int neighborCount = 0;
+
+				for (int neighborRow = -2; neighborRow <= 2; neighborRow++)
+				{
+					for (int neighborCol = -2; neighborCol <= 2; neighborCol++)
+					{
+						if (i + neighborRow < 0 || i + neighborRow >= rowCount
+							|| j + neighborCol < 0 || j + neighborCol >= colCount)
+							continue;
+
+						if (neighborRow == 0 && neighborCol == 0)
+							continue;
+
+						if (gameMap[i + neighborRow][j + neighborCol] == 1)
+							neighborCount++;
+
+					}
+				}
+
+				if (neighborCount>8 && rand()%100>75)
+					gameMap[i][j] = 1;
+			}
+		}
+	}
+
+	roundCount = 2;
+	for (int curRound = 0; curRound < roundCount; curRound++)
+	{
+		for (int i = 0; i < rowCount; i++)
+		{
+			for (int j = 0; j < colCount; j++)
+			{
+				int neighborCount = 0;
+
+				for (int neighborRow = -1; neighborRow <= 1; neighborRow++)
+				{
+					for (int neighborCol = -1; neighborCol <= 1; neighborCol++)
+					{
+						if (i + neighborRow < 0 || i + neighborRow >= rowCount
+							|| j + neighborCol < 0 || j + neighborCol >= colCount)
+							continue;
+
+						if (neighborRow == 0 && neighborCol == 0)
+							continue;
+
+						if (gameMap[i + neighborRow][j + neighborCol] == 1)
+							neighborCount++;
+
+					}
+				}
+
+				if (neighborCount > 2 && rand() % 100 > 75)
+					gameMap[i][j] = 1;
+			}
+		}
+	}
+
+	for (int i = 0; i < rowCount; i++)
+	{
+		for (int j = 0; j < colCount; j++)
+		{
+			int neighborCount = 0;
+
+			for (int neighborRow = -1; neighborRow <= 1; neighborRow++)
+			{
+				for (int neighborCol = -1; neighborCol <= 1; neighborCol++)
+				{
+					if (i + neighborRow < 0 || i + neighborRow >= rowCount
+						|| j + neighborCol < 0 || j + neighborCol >= colCount)
+						continue;
+
+					if (neighborRow == 0 && neighborCol == 0)
+						continue;
+
+					if (gameMap[i + neighborRow][j + neighborCol] == 1)
+						neighborCount++;
+
+				}
+			}
+
+			if (neighborCount==0)
+				gameMap[i][j] = 0;
+		}
+	}
+	
+
+	//Fill in with some random obstacles
+	
+	
+	
+
+
+
+	//DEBUG
+	for (int i = 0; i < rowCount; i++)
+	{
+		for (int j = 0; j < colCount; j++)
+		{
+			std::cout << gameMap[i][j];
+		}
+		std::cout << std::endl;
+	}
+
 
   // Create the offscreen device context and bitmap
   _hOffscreenDC = CreateCompatibleDC(GetDC(hWindow));
@@ -201,44 +361,15 @@ void HandleKeys()
 
 void MouseButtonDown(int x, int y, BOOL bLeft)
 {
-  // See if a ball was clicked with the left mouse button
-  if (bLeft && (_pDragSprite == NULL))
-  {
-    if ((_pDragSprite = _pGame->IsPointInSprite(x+camera.GetPosition().x, y + camera.GetPosition().y)) != NULL)
-    {
-      // Capture the mouse
-      SetCapture(_pGame->GetWindow());
-
-      // Simulate a mouse move to get started
-      MouseMove(x, y);
-    }
-  }
-
-
-
 }
 
 void MouseButtonUp(int x, int y, BOOL bLeft)
 {
-  // Release the mouse
-  ReleaseCapture();
-
-  // Stop dragging
-  _pDragSprite = NULL;
 }
 
 void MouseMove(int x, int y)
 {
 	Input::UpdateMousePosition(x, y,&camera);
-
-	//std::cout << Input::MouseX<<std::endl;
-  if (_pDragSprite != NULL)
-  {
-    // Move the sprite to the mouse cursor position
-    _pDragSprite->SetPosition(Input::GetWorldMouseX()+camera.GetPosition().x - (_pDragSprite->GetWidth() / 2),
-      Input::GetWorldMouseY()+camera.GetPosition().y - (_pDragSprite->GetHeight() / 2));
-
-  }
 }
 
 void HandleJoystick(JOYSTATE jsJoystickState)
