@@ -409,15 +409,14 @@ void GameEngine::UpdateSprites()
   }
 
   //Update codes
+
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
   {
     // Save the old sprite position in case we need to restore it
     rcOldSpritePos = (*siSprite)->GetPosition();
 
-
     // Update the sprite
 	(*siSprite)->Update();
-
 
     // See if the sprite collided with any others
 	if (CheckSpriteCollision(*siSprite))

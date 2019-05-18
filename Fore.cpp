@@ -22,6 +22,7 @@ bool selectMode = false;
 RECT    selectBounds = { 0, 0, 600, 400 };
 TreeSprite* selectSprite;
 Bitmap* _pSelectBitmap;
+HDC hDC;
 
 void SelectSprites()
 {
@@ -57,42 +58,15 @@ void SelectSprites()
 	}
 }
 
-void GenerateMap()
-{
-
-}
-
-BOOL GameInitialize(HINSTANCE hInstance)
-{
-  // Create the game engine
-  _pGame = new GameEngine(hInstance, TEXT("Fore 2"), TEXT("Fore 2"), IDI_FORE, IDI_FORE_SM, 21*50, 15*50);
-  if (_pGame == NULL)
-    return FALSE;
-
-  // Set the frame rate
-  _pGame->SetFrameRate(30);
-
-  // Store the instance handle
-  _hInstance = hInstance;
-
-  return TRUE;
-}
-
 int rowCount = 32;
 int colCount = 64;
-int ** gameMap = new int * [rowCount];
-
-void GameStart(HWND hWindow)
+int ** gameMap = new int *[rowCount];
+void GenerateMap()
 {
-
-
-	// Seed the random number generator
-	srand(GetTickCount());
-
 	//Initialize the map
 	for (int i = 0; i < rowCount; i++)
 	{
-		gameMap[i] = (int*)calloc(colCount,sizeof(int));
+		gameMap[i] = (int*)calloc(colCount, sizeof(int));
 	}
 
 	//Fill in the borders
@@ -100,7 +74,7 @@ void GameStart(HWND hWindow)
 	{
 		for (int j = 0; j < colCount; j++)
 		{
-			if(i==0 || i==rowCount-1||j==0||j==colCount-1)
+			if (i == 0 || i == rowCount - 1 || j == 0 || j == colCount - 1)
 				gameMap[i][j] = 1;
 		}
 	}
@@ -111,12 +85,12 @@ void GameStart(HWND hWindow)
 		for (int j = 0; j < colCount; j++)
 		{
 			//The closer it is to the midpoint to the center, the higher the likelyhood
-			if (rand() % (abs(abs((i - rowCount / 2))-rowCount/4) + 1) < 1
-				&& rand() % (abs(abs((j - colCount / 2))-colCount/4) + 1) < 1)
+			if (rand() % (abs(abs((i - rowCount / 2)) - rowCount / 4) + 1) < 1
+				&& rand() % (abs(abs((j - colCount / 2)) - colCount / 4) + 1) < 1)
 				gameMap[i][j] = 1;
-			
+
 			//The closer it is to the center, the higher the likelyhood
-			if (rand() % (abs(i - rowCount / 2)+ 1) < 1
+			if (rand() % (abs(i - rowCount / 2) + 1) < 1
 				&& rand() % (abs(j - colCount / 2) + 1) < 1)
 				gameMap[i][j] = 1;
 		}
@@ -151,7 +125,7 @@ void GameStart(HWND hWindow)
 					}
 				}
 
-				if (neighborCount>8 && rand()%100>75)
+				if (neighborCount > 8 && rand() % 100 > 75)
 					gameMap[i][j] = 1;
 			}
 		}
@@ -212,16 +186,16 @@ void GameStart(HWND hWindow)
 				}
 			}
 
-			if (neighborCount==0)
+			if (neighborCount == 0)
 				gameMap[i][j] = 0;
 		}
 	}
-	
+
 
 	//Fill in with some random obstacles
-	
-	
-	
+
+
+
 
 
 
@@ -230,23 +204,61 @@ void GameStart(HWND hWindow)
 	{
 		for (int j = 0; j < colCount; j++)
 		{
+			if (gameMap[i][j] == 1)
+			{
+				Sprite* newSprite = (Sprite*)_pGame->CreateSprite<Sprite>(hDC);
+				newSprite->SetBitmap(_pGolfBallBitmap);
+				RECT rect = {newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i+1) };
+				newSprite->SetPosition(rect);
+			}
 			std::cout << gameMap[i][j];
 		}
 		std::cout << std::endl;
 	}
 
+}
 
-  // Create the offscreen device context and bitmap
-  _hOffscreenDC = CreateCompatibleDC(GetDC(hWindow));
-  _hOffscreenBitmap = CreateCompatibleBitmap(GetDC(hWindow),
-    _pGame->GetWidth(), _pGame->GetHeight());
-  SelectObject(_hOffscreenDC, _hOffscreenBitmap);
+BOOL GameInitialize(HINSTANCE hInstance)
+{
+  // Create the game engine
+  _pGame = new GameEngine(hInstance, TEXT("Fore 2"), TEXT("Fore 2"), IDI_FORE, IDI_FORE_SM, 21*50, 15*50);
+  if (_pGame == NULL)
+    return FALSE;
 
-  // Create and load the bitmaps
-  HDC hDC = GetDC(hWindow);
-  _pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
-  _pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
-  _pSelectBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+  // Set the frame rate
+  _pGame->SetFrameRate(30);
+
+  // Store the instance handle
+  _hInstance = hInstance;
+
+
+
+  return TRUE;
+}
+
+
+void GameStart(HWND hWindow)
+{
+
+
+	// Seed the random number generator
+	srand(GetTickCount());
+
+
+
+	// Create the offscreen device context and bitmap
+	_hOffscreenDC = CreateCompatibleDC(GetDC(hWindow));
+	_hOffscreenBitmap = CreateCompatibleBitmap(GetDC(hWindow),
+		_pGame->GetWidth(), _pGame->GetHeight());
+	SelectObject(_hOffscreenDC, _hOffscreenBitmap);
+
+	// Create and load the bitmaps
+	hDC = GetDC(hWindow);
+	_pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
+	_pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+	_pSelectBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+
+	GenerateMap();
 
   // Create the golf ball sprites
   /*
