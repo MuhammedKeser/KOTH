@@ -77,7 +77,8 @@ protected:
   
 
   // Helper Methods
-  BOOL                CheckSpriteCollision(Sprite* pTestSprite);
+  //TODO->Rename this to updatespritecollisionlist
+  void                CheckSpriteCollision(Sprite* pTestSprite);
 
 public:
   // Constructor(s)/Destructor
@@ -106,6 +107,7 @@ public:
   void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera*camera);
   void                UpdateSprites();
   void                CleanupSprites();
+  void				  UpdateCollisions();
 
   //TODO->I cant move this into the CPP file. Why???
   template <typename T>

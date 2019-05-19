@@ -27,11 +27,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
   if (GameInitialize(hInstance))
   {
+	  //Open up a debug console
 	  if (debugConsole)
 	  {
 		  AllocConsole();
 		  freopen("CONOUT$", "w+", stdout);
 	  }
+
     // Initialize the game engine
     if (!GameEngine::GetEngine()->Initialize(iCmdShow))
       return FALSE;
@@ -406,48 +408,58 @@ void GameEngine::UpdateSprites()
 		  siSprite--;
 		  continue;
 	  }
-  }
 
-  //Update codes
-
-  for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
-  {
-    // Save the old sprite position in case we need to restore it
-    rcOldSpritePos = (*siSprite)->GetPosition();
-
-    // Update the sprite
-	(*siSprite)->Update();
-
-    // See if the sprite collided with any others
-	if (CheckSpriteCollision(*siSprite))
-		continue;
-      // Restore the old sprite position
-      //(*siSprite)->SetPosition(rcOldSpritePos);
-  }
-
-  //Exit collisions, and collision list resetting
-  for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
-  {
-	  (*siSprite)->ResetCollisionList();
+	  // Save the old sprite position in case we need to restore it
+	  rcOldSpritePos = (*siSprite)->GetPosition();
 
   }
+
+ 
   
+}
+
+void GameEngine::UpdateCollisions()
+{
+	//Update codes
+
+	vector<Sprite*>::iterator siSprite;
+	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	{
+		// Update the sprite
+		(*siSprite)->Update();
+
+		// See if the sprite collided with any others
+		CheckSpriteCollision(*siSprite);
+
+		// Restore the old sprite position
+		//(*siSprite)->SetPosition(rcOldSpritePos);
+	}
+
+	//Exit collisions, and collision list resetting
+	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	{
+		if ((*siSprite)->isStatic)
+			continue;
+
+		(*siSprite)->ResetCollisionList();
+
+	}
 }
 
 //-----------------------------------------------------------------
 // Game Engine Helper Methods
 //-----------------------------------------------------------------
-BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
+void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 {
 	//Static sprites shouldn't check for collision
 	if (pTestSprite->isStatic)
-		return FALSE;
+		return;
 
   // See if the sprite has collided with any other sprites
   vector<Sprite*>::iterator siSprite;
+  int debug = 0;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
   {
-
     // Make sure not to check for collision with itself
     if (pTestSprite == (*siSprite))
       continue;
@@ -458,7 +470,7 @@ BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 		//Run each sprites' collision code, depending on whether or not this is the first frame of their collision or not
 		//Used to check if this collision is a 'stay' or 'enter' collision
 		bool isOnStayCollision = false;
-		//Grab the shorter list
+
 		const std::list<Sprite*>& collisionList = pTestSprite->GetCollisionList();
 		
 		//Check if they exist in each others' collision lists - i.e., were already in a collision
@@ -488,7 +500,7 @@ BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 
 		// Return the detected collision, and set their velocities
 		//bool returnValue = CheckCollision((*siSprite), pTestSprite);
-		return true;
+		//return true;
 	}
 
 
@@ -496,7 +508,7 @@ BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
   }
 
   // No collision
-  return FALSE;
+  //return FALSE;
 }
 
 void GameEngine::CleanupSprites()

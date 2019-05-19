@@ -48,9 +48,6 @@ void TreeSprite::OnCollisionExit(Sprite * otherSprite)
 
 void TreeSprite::OnCollisionStay(Sprite * otherSprite)
 {
-	if (otherSprite->name == "WALL")
-		std::cout << "Touching Wall!";
-
 	//Checking the sprite type
 	TreeSprite* pRect = dynamic_cast<TreeSprite*>(otherSprite);
 	if (pRect != NULL)//Type of tree

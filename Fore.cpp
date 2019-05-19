@@ -15,7 +15,7 @@
 Camera camera;
 
 //DEBUG
-std::list<Sprite> selectedSprites;
+std::list<Sprite*> selectedSprites;
 int originMouseX = -1;
 int originMouseY = -1;
 bool selectMode = false;
@@ -24,6 +24,32 @@ TreeSprite* selectSprite;
 Bitmap* _pSelectBitmap;
 HDC hDC;
 
+void MoveSelectedSprites() 
+{
+	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT) &&
+		selectedSprites.size() > 0)
+	{
+		list<Sprite*>::iterator curSprite;
+		for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
+		{
+			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
+			if (!curUnit)
+				continue;
+			POINT velocityDir = { 
+				long(Input::GetWorldMouseX() - (curUnit->GetPosition().left + curUnit->GetWidth()/2)),
+				long(Input::GetWorldMouseY() - (curUnit->GetPosition().top+  curUnit->GetHeight()/ 2))
+					};
+			long hypot = long(sqrt(pow(velocityDir.x, 2) + pow(velocityDir.y, 2))/5);
+			POINT normalizedVelocityDir = {velocityDir.x/hypot,velocityDir.y / hypot};
+			curUnit->SetVelocity(normalizedVelocityDir);
+			std::cout << "Unit Selected!" << std::endl;
+		}
+		std::cout << selectedSprites.size();
+
+		selectedSprites.clear();
+	}
+}
+
 void SelectSprites()
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
@@ -31,8 +57,8 @@ void SelectSprites()
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
-
-		selectSprite = new TreeSprite(_pSelectBitmap, selectBounds, BA_WRAP);
+		RECT bounds = { -1000,-1000,1000,1000 };
+		selectSprite = new TreeSprite(_pSelectBitmap, bounds, BA_WRAP);
 		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		selectSprite->Scale(0.0f, 0.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
@@ -43,6 +69,7 @@ void SelectSprites()
 		if (Input::KeyHeld(InputKeys::KEY::MOUSELEFT))
 		{
 			selectSprite->Scale((float)(Input::GetWorldMouseX() - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::GetWorldMouseY() - originMouseY) / (float)selectSprite->GetHeight());
+			selectedSprites = selectSprite->GetCollisionList();
 			//_pSelectBitmap->SetWidth(Input::MouseX - originMouseX);
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
@@ -54,6 +81,7 @@ void SelectSprites()
 			originMouseX = -1;
 			originMouseY = -1;
 			_pGame->DeleteSprite(selectSprite);
+			
 		}
 	}
 }
@@ -210,6 +238,7 @@ void GenerateMap()
 				newSprite->SetBitmap(_pGolfBallBitmap);
 				RECT rect = {newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i+1) };
 				newSprite->SetPosition(rect);
+				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
 				newSprite->name = "WALL";
 			}
@@ -294,11 +323,13 @@ void GameStart(HWND hWindow)
   //_pGame->AddSprite((Sprite*)gatherer);
 
   Gatherer* gatherer = (_pGame->CreateSprite<Gatherer>(hDC));
+  RECT newPosition = {100,100,100+gatherer->GetWidth(),100+gatherer->GetHeight()};
+  gatherer->SetPosition(newPosition);
   //Debug->The static sprite optimization really helped!
-  for (int i = 0; i < 100; i++)
+  /*for (int i = 0; i < 100; i++)
   {
 	  (_pGame->CreateSprite<Gatherer>(hDC));
-  }
+  }*/
 
 }
 
@@ -345,13 +376,31 @@ void GameCycle()
 	//Update the inputs
 	Input::UpdateKeys();
 
-	SelectSprites();
-
+	
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 
+ 
   // Update the sprites
   _pGame->UpdateSprites();
+
+
+  //Update the sprite collisions
+  _pGame->UpdateCollisions();
+
+  SelectSprites();
+  MoveSelectedSprites();
+
+  if (selectedSprites.size() > 0)
+  {
+	  list<Sprite*>::iterator curSprite;
+	  for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
+	  {
+		  //std::cout << "Selected!" << std::endl;
+	  }
+	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
+  }
+
 
   // Obtain a device context for repainting the game
   HWND  hWindow = _pGame->GetWindow();

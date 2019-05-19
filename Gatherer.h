@@ -17,6 +17,7 @@ public:
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
+	void Update() override;
 protected:
 	UINT BITMAP_ID = IDB_GOLFBALL;
 }; 

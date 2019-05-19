@@ -83,8 +83,6 @@ void Sprite::Scale(float x,float y)
 	xScale = x;
 	yScale = y;
 
-
-
 	//std::cout << "New x scale: " << xScale<< std::endl;
 
 	int widthOffset = floor((float)GetWidth() * xScale);
@@ -98,11 +96,7 @@ void Sprite::Scale(float x,float y)
 		heightOffset >= 0 ? (m_rcPosition.top + heightOffset) : m_rcPosition.bottom);
 	
 	CopyRect(&m_rcCollision, &m_rcPosition);
-
-
-	std::cout << "New right: " << m_rcPosition.left << std::endl;
-
-	//m_rcCollision.bottom
+	CalcCollisionRect();
 }
 
 SPRITEACTION Sprite::UpdatePosition()
@@ -223,6 +217,7 @@ void Sprite::ResetCollisionList()
 		std::list<Sprite*>::const_iterator curr = it++;
 		if (!(this->TestCollision(*curr)))
 		{
+			std::cout << "REMOVED FROM COLLISION LIST" << std::endl;
 			//Run the oncollision exit code
 			OnCollisionExit(*curr);
 			//Remove the sprite from the list

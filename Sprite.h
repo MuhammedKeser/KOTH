@@ -107,6 +107,7 @@ public:
   virtual void OnCollisionStay(Sprite* otherSprite) {};
 public:
   void ResetCollisionList();
+  void RecalculateColliderRect() {CopyRect(&m_rcCollision, &m_rcPosition);};
 
 };
 
@@ -120,6 +121,8 @@ inline void Sprite::CalcCollisionRect()
   CopyRect(&m_rcCollision, &m_rcPosition);
   //InflateRect(&m_rcCollision, iXShrink, iYShrink);
 }
+
+
 
 //-----------------------------------------------------------------
 // Sprite Inline General Methods
