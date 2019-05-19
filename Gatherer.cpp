@@ -16,6 +16,7 @@ void Gatherer::OnCollisionStay(Sprite * otherSprite)
 
 void Gatherer::Update()
 {
+	Unit::Update();
 	/*
 	std::cout	<< "Left: " + m_rcCollision.left	<<std::endl
 				<< "Top: " + m_rcCollision.top		<<std::endl

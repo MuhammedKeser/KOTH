@@ -35,14 +35,7 @@ void MoveSelectedSprites()
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
 			if (!curUnit)
 				continue;
-			POINT velocityDir = { 
-				long(Input::GetWorldMouseX() - (curUnit->GetPosition().left + curUnit->GetWidth()/2)),
-				long(Input::GetWorldMouseY() - (curUnit->GetPosition().top+  curUnit->GetHeight()/ 2))
-					};
-			long hypot = long(sqrt(pow(velocityDir.x, 2) + pow(velocityDir.y, 2))/5);
-			POINT normalizedVelocityDir = {velocityDir.x/hypot,velocityDir.y / hypot};
-			curUnit->SetVelocity(normalizedVelocityDir);
-			std::cout << "Unit Selected!" << std::endl;
+			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		}
 		std::cout << selectedSprites.size();
 
