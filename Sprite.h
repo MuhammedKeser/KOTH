@@ -68,6 +68,14 @@ public:
     BOUNDSACTION baBoundsAction = BA_STOP);
   Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
     RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP);
+
+  Sprite::Sprite(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID);
+  Sprite(Bitmap* pBitmap, UINT BITMAP_ID);
+  Sprite(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID,
+	  BOUNDSACTION baBoundsAction = BA_STOP);
+  Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
+	  RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP);
+
   virtual ~Sprite();
 
   // General Methods

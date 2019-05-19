@@ -1,7 +1,6 @@
 #include "Gatherer.h"
 
 
-
 void Gatherer::OnCollisionEnter(Sprite * otherSprite)
 {
 }

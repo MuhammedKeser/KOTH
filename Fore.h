@@ -18,6 +18,7 @@
 #include "Unit.h"
 #include "Gatherer.h"
 #include "Obstacle.h"
+#include "Tile.h"
 //#include <stack>
 //#include <queue>
 
@@ -48,6 +49,7 @@ HDC         _hOffscreenDC;
 HBITMAP     _hOffscreenBitmap;
 Bitmap*     _pForestBitmap;
 Bitmap*     _pGolfBallBitmap;
+Bitmap*		_pWallBitmap;
 Sprite*     _pDragSprite;
 
 int **map;

@@ -70,6 +70,67 @@ Sprite::Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
   m_bHidden = FALSE;
 }
 
+Sprite::Sprite(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID)
+{
+	this->BITMAP_ID = BITMAP_ID;
+	m_pBitmap = new Bitmap(hDC, BITMAP_ID, hInstance);
+	SetRect(&m_rcPosition, 0, 0, m_pBitmap->GetWidth(), m_pBitmap->GetHeight());
+	CalcCollisionRect();
+	m_ptVelocity.x = m_ptVelocity.y = 0;
+	m_iZOrder = 0;
+	SetRect(&m_rcBounds, 0, 0, 640, 480);
+	m_baBoundsAction = BA_STOP;
+	m_bHidden = FALSE;
+}
+
+Sprite::Sprite(Bitmap * pBitmap, UINT BITMAP_ID)
+{
+	this->BITMAP_ID = BITMAP_ID;
+	// Initialize the member variables
+	m_pBitmap = pBitmap;
+	SetRect(&m_rcPosition, 0, 0, pBitmap->GetWidth(), pBitmap->GetHeight());
+	CalcCollisionRect();
+	m_ptVelocity.x = m_ptVelocity.y = 0;
+	m_iZOrder = 0;
+	SetRect(&m_rcBounds, 0, 0, 640, 480);
+	m_baBoundsAction = BA_STOP;
+	m_bHidden = FALSE;
+}
+
+Sprite::Sprite(Bitmap * pBitmap, RECT & rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction)
+{
+	this->BITMAP_ID = BITMAP_ID;
+	// Calculate a random position
+	int iXPos = rand() % (rcBounds.right - rcBounds.left);
+	int iYPos = rand() % (rcBounds.bottom - rcBounds.top);
+
+	// Initialize the member variables
+	m_pBitmap = pBitmap;
+	SetRect(&m_rcPosition, iXPos, iYPos, iXPos + pBitmap->GetWidth(),
+		iYPos + pBitmap->GetHeight());
+	CalcCollisionRect();
+	m_ptVelocity.x = m_ptVelocity.y = 0;
+	m_iZOrder = 0;
+	CopyRect(&m_rcBounds, &rcBounds);
+	m_baBoundsAction = baBoundsAction;
+	m_bHidden = FALSE;
+}
+
+Sprite::Sprite(Bitmap * pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT & rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction)
+{
+	this->BITMAP_ID = BITMAP_ID;
+	// Initialize the member variables
+	m_pBitmap = pBitmap;
+	SetRect(&m_rcPosition, ptPosition.x, ptPosition.y, pBitmap->GetWidth(),
+		pBitmap->GetHeight());
+	CalcCollisionRect();
+	m_ptVelocity = ptPosition;
+	m_iZOrder = iZOrder;
+	CopyRect(&m_rcBounds, &rcBounds);
+	m_baBoundsAction = baBoundsAction;
+	m_bHidden = FALSE;
+}
+
 Sprite::~Sprite()
 {
 }
@@ -109,6 +170,9 @@ SPRITEACTION Sprite::UpdatePosition()
 	ptSpriteSize.y = m_rcPosition.bottom - m_rcPosition.top;
 	ptBoundsSize.x = m_rcBounds.right - m_rcBounds.left;
 	ptBoundsSize.y = m_rcBounds.bottom - m_rcBounds.top;
+
+	//TODO-> Change ptNewPosition so that it never
+	//intersects another collider
 
 	// Check the bounds
 	// Wrap?
@@ -187,9 +251,9 @@ SPRITEACTION Sprite::UpdatePosition()
 	{
 
 	}
-
-
-  SetPosition(ptNewPosition);
+	
+	
+	SetPosition(ptNewPosition);
 
   return SA_NONE;
 }

@@ -387,7 +387,15 @@ void GameEngine::DrawSprites(HDC hDC,Camera* camera)
   // Draw the sprites in the sprite vector
   vector<Sprite*>::iterator siSprite;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
-    (*siSprite)->Draw(hDC,camera);
+  {
+	  if (
+		  (*siSprite)->GetPosition().left <= camera->GetPosition().x + GetWidth() &&
+		  camera->GetPosition().x <= (*siSprite)->GetPosition().right &&
+		  (*siSprite)->GetPosition().top <= camera->GetPosition().y + GetHeight() &&
+		  camera->GetPosition().y <= (*siSprite)->GetPosition().bottom
+		  )
+		  (*siSprite)->Draw(hDC, camera);
+  }
 }
 
 void GameEngine::UpdateSprites()

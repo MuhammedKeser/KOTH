@@ -37,7 +37,7 @@ public:
   Bitmap();
   Bitmap(HDC hDC, LPTSTR szFileName);
   Bitmap(HDC hDC, UINT uiResID, HINSTANCE hInstance);
-  Bitmap(HDC hDC, int iWidth, int iHeight, COLORREF crColor = RGB(0, 0, 0));
+  Bitmap(HDC hDC, int iWidth, int iHeight, COLORREF crColor = RGB(0,0,0));
   virtual ~Bitmap();
 
   // General Methods

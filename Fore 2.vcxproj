@@ -115,12 +115,28 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TreeSprite.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\bitmaps\bitmap1.bmp" />
+    <Image Include="..\..\..\bitmaps\bitmap12.bmp" />
+    <Image Include="..\..\..\Bitmaps\grass1.bmp" />
+    <Image Include="..\..\..\Bitmaps\grass2.bmp" />
+    <Image Include="..\..\..\Bitmaps\grass3.bmp" />
+    <Image Include="..\..\..\Bitmaps\grass4.bmp" />
+    <Image Include="..\..\..\Bitmaps\horse1.bmp" />
+    <Image Include="..\..\..\Bitmaps\lake.bmp" />
+    <Image Include="..\..\..\Bitmaps\terrain.bmp" />
+    <Image Include="..\..\..\Bitmaps\terrain2.bmp" />
+    <Image Include="..\..\..\Bitmaps\tree.bmp" />
+    <Image Include="..\..\..\Bitmaps\warriorL.bmp" />
+    <Image Include="..\..\..\Bitmaps\warriorR.bmp" />
     <Image Include="Fore.ico" />
+    <Image Include="Forest.bmp" />
     <Image Include="Fore_sm.ico" />
+    <Image Include="GolfBall.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Fore.rc" />
