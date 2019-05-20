@@ -17,6 +17,11 @@
 #define IDB_GRASS1                      113
 #define IDB_BITMAP1                     114
 #define IDB_WALL1                       114
+#define IDB_BITMAP2                     115
+#define IDB_BITMAP3                     119
+#define IDB_SELECT                      119
+#define IDB_BITMAP5                     125
+#define IDB_GATHERERL                   125
 #define IDI_FORE                        1000
 #define IDI_FORE_SM                     1001
 #define IDB_FOREST                      2000
@@ -26,7 +31,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

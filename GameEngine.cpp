@@ -279,25 +279,25 @@ void GameEngine::HandleCameraMovement(Camera* camera)
 	POINT cameraOldPosition = {camera->GetPosition().x, camera->GetPosition().y };
 	POINT increment = { 0,0 };
 	bool inputSent = false;
-	if (GetAsyncKeyState(VK_LEFT))
+	if (Input::KeyHeld(InputKeys::KEY::LEFT) || Input::KeyHeld(InputKeys::KEY::A))
 	{
 		inputSent = true;
-		increment.x -= 5;
+		increment.x -= 10;
 	}
-	if (GetAsyncKeyState(VK_RIGHT))
+	if (Input::KeyHeld(InputKeys::KEY::RIGHT)|| Input::KeyHeld(InputKeys::KEY::D))
 	{
 		inputSent = true;
-		increment.x += 5;
+		increment.x += 10;
 	}
-	if (GetAsyncKeyState(VK_DOWN))
+	if (Input::KeyHeld(InputKeys::KEY::DOWN) || Input::KeyHeld(InputKeys::KEY::S))
 	{
 		inputSent = true;
-		increment.y += 5;
+		increment.y += 10;
 	}
-	if (GetAsyncKeyState(VK_UP))
+	if (Input::KeyHeld(InputKeys::KEY::UP) || Input::KeyHeld(InputKeys::KEY::W))
 	{
 		inputSent = true;
-		increment.y -= 5;
+		increment.y -= 10;
 	}
 
 	if (inputSent)

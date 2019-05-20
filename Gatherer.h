@@ -7,11 +7,11 @@ class Gatherer : public Unit
 {
 public:
 	// Constructor(s)/Destructor
-	Gatherer(HDC hDC, HINSTANCE hInstance) :Unit(hDC, hInstance,IDB_WARRIORR) {};
-	Gatherer(Bitmap* pBitmap) :Unit(pBitmap, IDB_WARRIORR) { };
-	Gatherer(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) : Unit(pBitmap, rcBounds, IDB_WARRIORR,baBoundsAction) {};
+	Gatherer(HDC hDC, HINSTANCE hInstance) :Unit(hDC, hInstance,IDB_GATHERERL) {};
+	Gatherer(Bitmap* pBitmap) :Unit(pBitmap, IDB_GATHERERL) { };
+	Gatherer(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) : Unit(pBitmap, rcBounds, IDB_GATHERERL,baBoundsAction) {};
 	Gatherer(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :
-		Unit(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_WARRIORR,baBoundsAction) {
+		Unit(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_GATHERERL,baBoundsAction) {
 	};
 	virtual ~Gatherer() {};
 

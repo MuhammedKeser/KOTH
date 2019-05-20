@@ -17,6 +17,7 @@
 #include "Player.h"
 #include "Unit.h"
 #include "Gatherer.h"
+#include "Warrior.h"
 #include "Obstacle.h"
 #include "Tile.h"
 //#include <stack>

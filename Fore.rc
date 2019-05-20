@@ -55,6 +55,10 @@ IDB_GRASS1              BITMAP                  "d:\\desktop\\bitmaps\\bitmap12.
 
 IDB_WALL1               BITMAP                  "d:\\desktop\\bitmaps\\bitmap1.bmp"
 
+IDB_SELECT              BITMAP                  "d:\\desktop\\bitmaps\\bitmap3.bmp"
+
+IDB_GATHERERL           BITMAP                  "D:\\Desktop\\Bitmaps\\femaleL.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

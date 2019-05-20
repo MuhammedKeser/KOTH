@@ -188,6 +188,7 @@ void GenerateMap()
 		}
 	}
 
+	//Erase lone walls
 	for (int i = 0; i < rowCount; i++)
 	{
 		for (int j = 0; j < colCount; j++)
@@ -216,12 +217,35 @@ void GenerateMap()
 		}
 	}
 
+	//Create some random trees
+	for (int i = 0; i < rowCount; i++)
+	{
+		for (int j = 0; j < colCount; j++)
+		{
+			int neighborCount = 0;
 
-	//Fill in with some random obstacles
+			for (int neighborRow = -4; neighborRow <= 4; neighborRow++)
+			{
+				for (int neighborCol = -4; neighborCol <= 4; neighborCol++)
+				{
+					if (i + neighborRow < 0 || i + neighborRow >= rowCount
+						|| j + neighborCol < 0 || j + neighborCol >= colCount)
+						continue;
+
+					if (neighborRow == 0 && neighborCol == 0)
+						continue;
+
+					if (gameMap[i + neighborRow][j + neighborCol] == 1 || gameMap[i + neighborRow][j + neighborCol] == 2)
+						neighborCount++;
 
 
+				}
+			}
 
-
+			if (neighborCount <=1 && rand()%100>60)
+				gameMap[i][j] = 2;
+		}
+	}
 
 
 	//DEBUG
@@ -241,7 +265,16 @@ void GenerateMap()
 				newSprite->name = "WALL";
 			}
 
-			if (gameMap[i][j] == 0)
+			if (gameMap[i][j] == 2)
+			{
+				TreeSprite* newSprite = (TreeSprite*)_pGame->CreateSprite<TreeSprite>(hDC);
+				RECT rect = { newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i + 1) };
+				newSprite->SetPosition(rect);
+				newSprite->RecalculateColliderRect();
+				newSprite->isStatic = true;
+			}
+
+			if (gameMap[i][j] == 0 || gameMap[i][j] == 2)
 			{
 				Bitmap* tileBitmap = _pGrassBitmaps[rand() % grassCount];
 				RECT tilePosition = { tileBitmap->GetWidth()*j,tileBitmap->GetHeight()*i,tileBitmap->GetWidth()*(j + 1),tileBitmap->GetHeight()*(i + 1) };
@@ -263,7 +296,7 @@ BOOL GameInitialize(HINSTANCE hInstance)
     return FALSE;
 
   // Set the frame rate
-  _pGame->SetFrameRate(30);
+  _pGame->SetFrameRate(60);
 
   // Store the instance handle
   _hInstance = hInstance;
@@ -293,7 +326,7 @@ void GameStart(HWND hWindow)
 	hDC = GetDC(hWindow);
 	_pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
 	_pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
-	_pSelectBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+	_pSelectBitmap = new Bitmap(hDC, IDB_SELECT, _hInstance);
 	_pWallBitmap = new Bitmap(hDC, IDB_WALL1, _hInstance);
 	_pGrassBitmaps[0] =  new Bitmap(hDC, IDB_GRASS1, _hInstance) ;
 	_pGrassBitmaps[1] =  new Bitmap(hDC, IDB_GRASS2, _hInstance) ;
@@ -341,6 +374,10 @@ void GameStart(HWND hWindow)
   gatherer = (_pGame->CreateSprite<Gatherer>(hDC));
   newPosition = { 200,200,200 + gatherer->GetWidth(),200 + gatherer->GetHeight() };
   gatherer->SetPosition(newPosition);
+
+  Warrior* warrior = (_pGame->CreateSprite<Warrior>(hDC));
+  newPosition = { 100,200,100 + warrior->GetWidth(),200 + warrior->GetHeight() };
+  warrior->SetPosition(newPosition);
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
   {
@@ -381,7 +418,6 @@ void GamePaint(HDC hDC)
   // Draw the background forest
   //_pForestBitmap->Draw(hDC, 0, 0);
 	std::list<Tile*>::iterator it;
-	int amountDrawn = 0;
 	for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
 	{
 		
@@ -393,11 +429,9 @@ void GamePaint(HDC hDC)
 			)
 		{
 			(*it)->Draw(hDC, &camera);
-			amountDrawn++;
 		}
 		
 	}
-	std::cout << amountDrawn << std::endl;
   RECT bgRect = { 0, 0, 0, 0 };
   _pGame->DrawBackground(hDC, _pForestBitmap, bgRect,&camera);
 
