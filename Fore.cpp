@@ -383,6 +383,7 @@ void GameStart(HWND hWindow)
   */
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
+  player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
@@ -423,11 +424,13 @@ void GamePaint(HDC hDC)
 
 
 	// Draw the background forest
-  RECT bgRect = { 0, 0, 0, 0 };
-  _pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
+  //RECT bgRect = { 0, 0, _pGame->GetWidth(), _pGame->GetHeight() };
+  //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
 
 	//Draw the tiles
+  
   std::list<Tile*>::iterator it;
+  int tileCount = 0;
   for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
   {
 
@@ -439,9 +442,11 @@ void GamePaint(HDC hDC)
 		  )
 	  {
 		  (*it)->Draw(hDC, &camera);
+		  tileCount++;
 	  }
 
   }
+  std::cout << "TileCount: " << tileCount << std::endl;
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);
