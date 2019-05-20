@@ -104,7 +104,7 @@ public:
   
 
   //TODO-> Add DrawBackground
-  void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera*camera);
+  void				  DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect);
   void                UpdateSprites();
   void                CleanupSprites();
   void				  UpdateCollisions();

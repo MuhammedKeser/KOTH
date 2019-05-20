@@ -377,9 +377,9 @@ void GameEngine::AddSprite(Sprite* pSprite)
   }
 }
 
-void GameEngine::DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect,Camera* camera)
+void GameEngine::DrawBackground(HDC hDC, Bitmap* backgroundBM, RECT backgroundRect)
 {
-	backgroundBM->Draw(hDC,backgroundRect.left- camera->GetPosition().x, backgroundRect.top - camera->GetPosition().y, 1, 1,TRUE);
+	backgroundBM->Draw(hDC,backgroundRect.left, backgroundRect.top , 1, 1,TRUE);
 }
 
 void GameEngine::DrawSprites(HDC hDC,Camera* camera)

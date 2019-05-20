@@ -53,10 +53,10 @@ void SelectSprites()
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
-		RECT bounds = { -1000,-1000,1000,1000 };
+		RECT bounds = { -1000,-1000,10000,10000 };
 		selectSprite = new TreeSprite(_pSelectBitmap, bounds, BA_WRAP);
 		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
-		selectSprite->Scale(0.0f, 0.0f);
+		selectSprite->Scale(1.0f, 1.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
 	}
 
@@ -415,25 +415,27 @@ void GamePaint(HDC hDC)
 {
 	
 
-  // Draw the background forest
-  //_pForestBitmap->Draw(hDC, 0, 0);
-	std::list<Tile*>::iterator it;
-	for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
-	{
-		
-		if (
-			(*it)->m_position.left <= camera.GetPosition().x + _pGame->GetWidth() &&
-			camera.GetPosition().x <= (*it)->m_position.right &&
-			(*it)->m_position.top <= camera.GetPosition().y + _pGame->GetHeight() &&
-			camera.GetPosition().y <= (*it)->m_position.bottom
-			)
-		{
-			(*it)->Draw(hDC, &camera);
-		}
-		
-	}
+
+	// Draw the background forest
   RECT bgRect = { 0, 0, 0, 0 };
-  _pGame->DrawBackground(hDC, _pForestBitmap, bgRect,&camera);
+  _pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
+
+	//Draw the tiles
+  std::list<Tile*>::iterator it;
+  for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
+  {
+
+	  if (
+		  (*it)->m_position.left <= camera.GetPosition().x + _pGame->GetWidth() &&
+		  camera.GetPosition().x <= (*it)->m_position.right &&
+		  (*it)->m_position.top <= camera.GetPosition().y + _pGame->GetHeight() &&
+		  camera.GetPosition().y <= (*it)->m_position.bottom
+		  )
+	  {
+		  (*it)->Draw(hDC, &camera);
+	  }
+
+  }
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);

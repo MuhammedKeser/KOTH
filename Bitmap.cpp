@@ -222,9 +222,9 @@ void Bitmap::Draw(HDC hDC, int x, int y, float xScale, float yScale,BOOL bTrans,
 
 		// Draw the bitmap to the destination device context
 		if (bTrans)
-			TransparentBlt(hDC, x, y, floor((float)GetWidth()*xScale), floor((float)GetHeight()*yScale), hMemDC, 0, 0, GetWidth(), GetHeight(), crTransColor);
+			TransparentBlt(hDC, xScale>0? x: x+ floor((float)GetWidth()*xScale), yScale > 0 ? y : y + floor((float)GetHeight()*yScale), floor((float)GetWidth()*abs(static_cast<long long>(xScale))), floor((float)GetHeight()*abs(static_cast<long long>(yScale))), hMemDC, 0, 0, GetWidth(), GetHeight(), crTransColor);
 		else
-			BitBlt(hDC, x, y, floor((float)GetWidth()*xScale), floor((float)GetHeight()*yScale), hMemDC, 0, 0, SRCCOPY);
+			BitBlt(hDC, xScale > 0 ? x : x + floor((float)GetWidth()*xScale), yScale > 0 ? y : y + floor((float)GetHeight()*yScale), floor((float)GetWidth()*abs(static_cast<long long>(xScale))), floor((float)GetHeight()*abs(static_cast<long long>(yScale))), hMemDC, 0, 0, SRCCOPY);
 
 		// Restore and delete the memory device context
 		SelectObject(hMemDC, hOldBitmap);
