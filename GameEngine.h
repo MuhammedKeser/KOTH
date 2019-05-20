@@ -16,7 +16,6 @@ using namespace std;
 #include "Camera.h"
 #include <list>
 #include "InputManager.h"
-#include "Gatherer.h"
 
 
 //-----------------------------------------------------------------

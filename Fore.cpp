@@ -20,12 +20,13 @@ int originMouseX = -1;
 int originMouseY = -1;
 bool selectMode = false;
 RECT    selectBounds = { 0, 0, 600, 400 };
-TreeSprite* selectSprite;
+Sprite* selectSprite;
 Bitmap* _pSelectBitmap;
 HDC hDC;
 
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
+Player player("Momo");
 
 void MoveSelectedSprites() 
 {
@@ -54,7 +55,7 @@ void SelectSprites()
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
 		RECT bounds = { -1000,-1000,10000,10000 };
-		selectSprite = new TreeSprite(_pSelectBitmap, bounds, BA_WRAP);
+		selectSprite = new Sprite(_pSelectBitmap, bounds, BA_WRAP);
 		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		selectSprite->Scale(1.0f, 1.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
@@ -302,7 +303,6 @@ BOOL GameInitialize(HINSTANCE hInstance)
   _hInstance = hInstance;
 
 
-
   return TRUE;
 }
 
@@ -367,6 +367,8 @@ void GameStart(HWND hWindow)
   //Gatherer* gatherer = new Gatherer(hDC, _hInstance);
   //_pGame->AddSprite((Sprite*)gatherer);
 
+
+  /*
   Gatherer* gatherer = (_pGame->CreateSprite<Gatherer>(hDC));
   RECT newPosition = {100,100,100+gatherer->GetWidth(),100+gatherer->GetHeight()};
   gatherer->SetPosition(newPosition);
@@ -378,6 +380,10 @@ void GameStart(HWND hWindow)
   Warrior* warrior = (_pGame->CreateSprite<Warrior>(hDC));
   newPosition = { 100,200,100 + warrior->GetWidth(),200 + warrior->GetHeight() };
   warrior->SetPosition(newPosition);
+  */
+
+  player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
+
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
   {

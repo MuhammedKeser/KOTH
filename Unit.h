@@ -20,7 +20,7 @@ public:
 	void MoveToPoint();
 
 //Members
-private:
+protected:
 	Player *m_player;
 	float m_movementSpeed = 1.0f;
 	POINT m_destination = POINT{-1,-1};

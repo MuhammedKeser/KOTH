@@ -525,7 +525,8 @@ void GameEngine::CleanupSprites()
   vector<Sprite*>::iterator siSprite;
   for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
   {
-    delete (*siSprite);
+	  if(*siSprite!=NULL)
+		delete (*siSprite);
     //m_vSprites.erase(siSprite);
     //siSprite--;
   }

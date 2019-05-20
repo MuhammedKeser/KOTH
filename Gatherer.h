@@ -2,6 +2,7 @@
 #include "Unit.h"
 #include <iostream>
 #include "Resource.h"
+#include "TreeSprite.h"
 
 class Gatherer : public Unit
 {
@@ -19,4 +20,11 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 	void Update() override;
+
+private:
+	void SapTree(TreeSprite* tree);
+	
+	//Members
+private:
+	int sapSpeed = 1;
 }; 
