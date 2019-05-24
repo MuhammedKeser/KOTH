@@ -7,7 +7,6 @@ void TreeSprite::Update()
 {
 	if (Input::KeyReleased(InputKeys::KEY::D))
 	{
-		Scale(xScale+0.2f,yScale+0.3f);
 	}
 }
 
