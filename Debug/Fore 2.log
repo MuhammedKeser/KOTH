@@ -1,0 +1,28 @@
+﻿  Warrior.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+  Unit.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+d:\desktop\gamedes\chap11labyrinth\fore 2\unit.cpp(23): warning C4838: conversion from 'float' to 'LONG' requires a narrowing conversion
+d:\desktop\gamedes\chap11labyrinth\fore 2\unit.cpp(23): warning C4244: 'initializing': conversion from 'float' to 'LONG', possible loss of data
+d:\desktop\gamedes\chap11labyrinth\fore 2\unit.cpp(27): warning C4101: 'ptSpriteSize': unreferenced local variable
+d:\desktop\gamedes\chap11labyrinth\fore 2\unit.cpp(27): warning C4101: 'ptBoundsSize': unreferenced local variable
+  TreeSprite.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+  Sprite.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+d:\desktop\gamedes\chap11labyrinth\fore 2\sprite.cpp(149): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\desktop\gamedes\chap11labyrinth\fore 2\sprite.cpp(150): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Gatherer.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+  GameEngine.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+d:\desktop\gamedes\chap11labyrinth\fore 2\gameengine.cpp(34): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
+d:\desktop\gamedes\chap11labyrinth\fore 2\gameengine.cpp(486): warning C4018: '<': signed/unsigned mismatch
+  Fore.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
+  Bitmap.cpp
+d:\desktop\gamedes\chap11labyrinth\fore 2\bitmap.cpp(225): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\desktop\gamedes\chap11labyrinth\fore 2\bitmap.cpp(227): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Fore 2.vcxproj -> D:\Desktop\GameDes\Chap11labyrinth\Fore 2\Debug\Fore 2.exe
