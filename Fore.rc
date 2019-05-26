@@ -29,35 +29,35 @@ IDB_FOREST              BITMAP                  "Forest.bmp"
 
 IDB_GOLFBALL            BITMAP                  "GolfBall.bmp"
 
-IDB_GRASS2              BITMAP                  "D:\\Desktop\\Bitmaps\\grass1.bmp"
+IDB_GRASS2              BITMAP                  "Bitmaps\\grass1.bmp"
 
-IDB_GRASS3              BITMAP                  "D:\\Desktop\\Bitmaps\\grass2.bmp"
+IDB_GRASS3              BITMAP                  "Bitmaps\\grass2.bmp"
 
-IDB_GRASS4              BITMAP                  "D:\\Desktop\\Bitmaps\\grass3.bmp"
+IDB_GRASS4              BITMAP                  "Bitmaps\\grass3.bmp"
 
-IDB_GRASS5              BITMAP                  "D:\\Desktop\\Bitmaps\\grass4.bmp"
+IDB_GRASS5              BITMAP                  "Bitmaps\\grass4.bmp"
 
-IDB_HORSE               BITMAP                  "D:\\Desktop\\Bitmaps\\horse1.bmp"
+IDB_HORSE               BITMAP                  "Bitmaps\\horse1.bmp"
 
-IDB_LAKE                BITMAP                  "D:\\Desktop\\Bitmaps\\lake.bmp"
+IDB_LAKE                BITMAP                  "Bitmaps\\lake.bmp"
 
-IDB_GRASS_EMPTY1        BITMAP                  "D:\\Desktop\\Bitmaps\\terrain.bmp"
+IDB_GRASS_EMPTY1        BITMAP                  "Bitmaps\\terrain.bmp"
 
-IDB_GRASS_EMPTY2        BITMAP                  "D:\\Desktop\\Bitmaps\\terrain2.bmp"
+IDB_GRASS_EMPTY2        BITMAP                  "Bitmaps\\terrain2.bmp"
 
-IDB_TREE                BITMAP                  "D:\\Desktop\\Bitmaps\\tree.bmp"
+IDB_TREE                BITMAP                  "Bitmaps\\tree.bmp"
 
-IDB_WARRIORL            BITMAP                  "D:\\Desktop\\Bitmaps\\warriorL.bmp"
+IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
 
-IDB_WARRIORR            BITMAP                  "D:\\Desktop\\Bitmaps\\warriorR.bmp"
+IDB_WARRIORR            BITMAP                  "Bitmaps\\warriorR.bmp"
 
-IDB_GRASS1              BITMAP                  "d:\\desktop\\bitmaps\\bitmap12.bmp"
+IDB_GRASS1              BITMAP                  "Bitmaps\\bitmap12.bmp"
 
-IDB_WALL1               BITMAP                  "d:\\desktop\\bitmaps\\bitmap1.bmp"
+IDB_WALL1               BITMAP                  "Bitmaps\\bitmap1.bmp"
 
-IDB_SELECT              BITMAP                  "d:\\desktop\\bitmaps\\bitmap3.bmp"
+IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
 
-IDB_GATHERERL           BITMAP                  "D:\\Desktop\\Bitmaps\\femaleL.bmp"
+IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
 
 
 #ifdef APSTUDIO_INVOKED
