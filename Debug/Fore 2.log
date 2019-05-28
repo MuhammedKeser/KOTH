@@ -1,2 +1,4 @@
-﻿Bitmap.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-  Fore 2.vcxproj -> C:\Users\ozenc\Desktop\KOTH\Debug\Fore 2.exe
+﻿  cl: Komut satırı warning D9035: 'Gm' seçeneği kullanım dışı ve ileride yayınlanacak bir sürümden çıkarılacak
+  Fore.cpp
+C:\Users\asp\source\repos\KOTH\InputManager.h(48,3): warning C4091:  'static ': hiçbir değişken bildirimi yapılmadığında 'InputKeys::KEY' solunda yoksayılır
+  Fore 2.vcxproj -> C:\Users\asp\source\repos\KOTH\Debug\Fore 2.exe

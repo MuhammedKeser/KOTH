@@ -30,7 +30,7 @@ Player player("Momo");
 
 void MoveSelectedSprites() 
 {
-	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT) &&
+	if (Input::KeyPressed(InputKeys::KEY::MOUSERIGHT) &&
 		selectedSprites.size() > 0)
 	{
 		list<Sprite*>::iterator curSprite;
