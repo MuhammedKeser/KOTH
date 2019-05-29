@@ -42,6 +42,9 @@
     <ClCompile Include="Warrior.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LivelySprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Warrior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LivelySprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -161,6 +167,54 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\Bitmaps\femaleL.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmaps\bitmap4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\grass1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\grass2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\grass3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\grass4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\horse1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\lake.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\terrain.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\terrain2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\tree.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\warriorL.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\warriorR.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\bitmap12.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\femaleL.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

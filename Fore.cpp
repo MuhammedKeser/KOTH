@@ -248,6 +248,17 @@ void GenerateMap()
 		}
 	}
 
+	//Create living area at lower side of map
+	for (int i = 51; i < 59; i++)
+	{
+		for (int j = 29; j < 37; j++)
+		{
+				gameMap[i][j] = 9999;
+			
+		}
+		
+	}
+
 
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
@@ -266,10 +277,23 @@ void GenerateMap()
 				newSprite->name = "WALL";
 			}
 
+			
+
 			if (gameMap[i][j] == 2)
 			{
 				TreeSprite* newSprite = (TreeSprite*)_pGame->CreateSprite<TreeSprite>(hDC);
 				RECT rect = { newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i + 1) };
+				newSprite->SetPosition(rect);
+				newSprite->RecalculateColliderRect();
+				newSprite->isStatic = true;
+			}
+
+
+			//colouring bitmap
+			if (gameMap[i][j] == 9999)
+			{
+				LivelySprite* newSprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
+				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 1),newSprite->GetHeight() * (i + 1) };
 				newSprite->SetPosition(rect);
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
@@ -282,10 +306,15 @@ void GenerateMap()
 				Tile* newTile = new Tile(tilePosition, tileBitmap);
 				backgroundTiles.push_back(newTile);
 			}
+
+			
 			std::cout << gameMap[i][j];
 		}
 		std::cout << std::endl;
 	}
+
+	
+
 
 }
 

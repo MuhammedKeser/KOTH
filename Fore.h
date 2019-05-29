@@ -20,6 +20,7 @@
 #include "Warrior.h"
 #include "Obstacle.h"
 #include "Tile.h"
+#include "LivelySprite.h"
 //#include <stack>
 //#include <queue>
 
@@ -51,6 +52,7 @@ HBITMAP     _hOffscreenBitmap;
 Bitmap*     _pForestBitmap;
 Bitmap*     _pGolfBallBitmap;
 Bitmap*		_pWallBitmap;
+Bitmap*		_pLivelyBitmap;
 Sprite*     _pDragSprite;
 
 int **map;

@@ -2,11 +2,11 @@
 //
 #include "resource.h"
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Türkçe (Türkiye) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-//LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_TRK)
+//LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
+#pragma code_page(1254)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -59,6 +59,8 @@ IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
 
 IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
 
+IDB_LIVELY              BITMAP                  "bitmaps\\bitmap4.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -84,7 +86,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+#endif    // Türkçe (Türkiye) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
