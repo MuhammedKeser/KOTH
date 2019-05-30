@@ -47,8 +47,6 @@ IDB_GRASS_EMPTY2        BITMAP                  "Bitmaps\\terrain2.bmp"
 
 IDB_TREE                BITMAP                  "Bitmaps\\tree.bmp"
 
-IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
-
 IDB_WARRIORR            BITMAP                  "Bitmaps\\warriorR.bmp"
 
 IDB_GRASS1              BITMAP                  "Bitmaps\\bitmap12.bmp"
@@ -60,6 +58,10 @@ IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
 IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
 
 IDB_LIVELY              BITMAP                  "bitmaps\\bitmap4.bmp"
+
+IDB_GATHERERR           BITMAP                  "Bitmaps\\femaleR.bmp"
+
+IDB_WARRIORL            BITMAP                  "C:\\Users\\asp\\source\\repos\\KOTH\\Bitmaps\\warriorL.bmp"
 
 
 #ifdef APSTUDIO_INVOKED

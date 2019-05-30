@@ -29,9 +29,13 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 
-	void startCountdown(const Player& otherPlayer);
+	void increasePlayerCount(const Player& otherPlayer);
+	void decreasePlayerCount(const Player& otherPlayer);
 
 	static Player* occupyingPlayer;
+	
 	//if it is occupied by 1
 	//or by player 2
+	static int playerOneCount;
+	static int playerTwoCount;
 };

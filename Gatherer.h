@@ -8,8 +8,8 @@ class Gatherer : public Unit
 {
 public:
 	// Constructor(s)/Destructor
-	Gatherer(HDC hDC, HINSTANCE hInstance) :Unit(hDC, hInstance,IDB_GATHERERL) {};
-	Gatherer(Bitmap* pBitmap) :Unit(pBitmap, IDB_GATHERERL) { };
+	Gatherer(HDC hDC, HINSTANCE hInstance) :Unit(hDC, hInstance, IDB_GATHERERL, IDB_GATHERERR) {};
+	
 	Gatherer(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) : Unit(pBitmap, rcBounds, IDB_GATHERERL,baBoundsAction) {};
 	Gatherer(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :
 		Unit(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_GATHERERL,baBoundsAction) {

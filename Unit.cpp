@@ -39,6 +39,12 @@ void Unit::MoveToPoint()
 			(ptNewPosition.y > m_destination.y && m_ptVelocity.y>0)
 			){m_ptVelocity = POINT{ m_ptVelocity.x,0 };}
 
+		if (m_ptVelocity.x > 0) {
+			SetBitmap(p_RightBitmap);
+		}
+		if (m_ptVelocity.x < 0) {
+			SetBitmap(p_LeftBitmap);
+		}
 
 	}
 }

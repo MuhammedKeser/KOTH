@@ -23,10 +23,11 @@ RECT    selectBounds = { 0, 0, 600, 400 };
 Sprite* selectSprite;
 Bitmap* _pSelectBitmap;
 HDC hDC;
-
+LivelySprite*** livelySprite;
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 Player player("Momo");
+Player player2("ASP");
 
 void MoveSelectedSprites() 
 {
@@ -37,14 +38,34 @@ void MoveSelectedSprites()
 		for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
 		{
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
+			
 			if (!curUnit)
 				continue;
 			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		}
-		std::cout << selectedSprites.size();
+		//std::cout << selectedSprites.size();
 
 		selectedSprites.clear();
 	}
+}
+
+void startCountdown(HDC hDC) {
+
+	if (LivelySprite::playerOneCount>LivelySprite::playerTwoCount)
+	{
+		RECT rect = RECT{0,0,500,500};
+		DrawText(hDC, TEXT("Countdown Started! Momo's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+		
+	}
+	else if (LivelySprite::playerOneCount < LivelySprite::playerTwoCount)
+	{
+		RECT rect = RECT{ 0,0,500,500};
+		DrawText(hDC, TEXT("Countdown Started! ASP's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+	}
+	else {
+
+	}
+
 }
 
 void SelectSprites()
@@ -86,9 +107,11 @@ void SelectSprites()
 int rowCount = 64;
 int colCount = 64;
 int ** gameMap = new int *[rowCount];
+
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
-{
+{	
+	
 	//Initialize the map
 	for (int i = 0; i < rowCount; i++)
 	{
@@ -253,13 +276,13 @@ void GenerateMap()
 	{
 		for (int j = 29; j < 37; j++)
 		{
-				gameMap[i][j] = 9999;
+				gameMap[i][j] = 3;
 			
 		}
 		
 	}
 
-
+	BOOL firstLively = false;
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
 	{
@@ -290,13 +313,16 @@ void GenerateMap()
 
 
 			//colouring bitmap
-			if (gameMap[i][j] == 9999)
+			if (gameMap[i][j] == 3 && !firstLively)
 			{
 				LivelySprite* newSprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
-				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 1),newSprite->GetHeight() * (i + 1) };
+				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 8),newSprite->GetHeight() * (i + 8) };
+				newSprite->Scale(8, 8);
 				newSprite->SetPosition(rect);
 				newSprite->RecalculateColliderRect();
-				newSprite->isStatic = true;
+				/*newSprite->isStatic = false;*/
+				
+				firstLively = true;
 			}
 
 			if (gameMap[i][j] == 0 || gameMap[i][j] == 2)
@@ -475,10 +501,11 @@ void GamePaint(HDC hDC)
 	  }
 
   }
-  std::cout << "TileCount: " << tileCount << std::endl;
+  //std::cout << "TileCount: " << tileCount << std::endl;
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);
+  startCountdown(hDC);
 }
 
 void GameCycle()
@@ -523,11 +550,14 @@ void GameCycle()
   BitBlt(hDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
     _hOffscreenDC, 0, 0, SRCCOPY);
 
+
   //TODO -> This is a bit buggy
   //Reset the offscreen device context AKA clear the screen
 
   BitBlt(_hOffscreenDC, 0, 0, _pGame->GetWidth(), _pGame->GetHeight(),
 	  _hOffscreenDC, 0, 0, BLACKNESS);
+
+  
 
   // Cleanup
   ReleaseDC(hWindow, hDC);

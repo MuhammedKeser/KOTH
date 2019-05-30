@@ -7,7 +7,10 @@ class Unit : public Sprite
 {
 public:
 	// Constructor(s)/Destructor
-	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) :Sprite(hDC, hInstance, BITMAP_ID) {};
+	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID, UINT BITMAP_IDR) :Sprite(hDC, hInstance, BITMAP_ID) {
+		p_LeftBitmap = new Bitmap(hDC, BITMAP_ID, hInstance);
+		p_RightBitmap = new Bitmap(hDC, BITMAP_IDR, hInstance);
+	};
 	Unit(Bitmap* pBitmap, UINT BITMAP_ID) :Sprite(pBitmap, BITMAP_ID) {};
 	Unit(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
 	Unit(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :
@@ -21,6 +24,8 @@ public:
 
 //Members
 protected:
+	Bitmap* p_LeftBitmap;
+	Bitmap* p_RightBitmap;
 	Player *m_player;
 	float m_movementSpeed = 1.0f;
 	POINT m_destination = POINT{-1,-1};

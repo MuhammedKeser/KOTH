@@ -127,12 +127,6 @@
     <Image Include="..\..\..\Bitmaps\tree.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\Bitmaps\warriorL.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Bitmaps\warriorR.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Forest.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -199,9 +193,6 @@
     <Image Include="Bitmaps\tree.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Bitmaps\warriorL.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Bitmaps\warriorR.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -215,6 +206,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Bitmaps\femaleL.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\warriorRH.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\warriorLH.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmaps\bitmap6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\femaleR.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\warriorL.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
