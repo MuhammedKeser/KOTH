@@ -1,7 +1,0 @@
-﻿  Horse.cpp
-d:\desktop\gamedes\chap11labyrinth\fore 2\inputmanager.h(48): warning C4091: 'static ': ignored on left of 'InputKeys::KEY' when no variable is declared
-d:\desktop\gamedes\chap11labyrinth\fore 2\unit.h(49): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-d:\desktop\gamedes\chap11labyrinth\fore 2\unit.h(50): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-d:\desktop\gamedes\chap11labyrinth\fore 2\warrior.h(28): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-d:\desktop\gamedes\chap11labyrinth\fore 2\horse.cpp(8): warning C4018: '>': signed/unsigned mismatch
-  Fore 2.vcxproj -> D:\Desktop\GameDes\Chap11labyrinth\Fore 2\Debug\Fore 2.exe
