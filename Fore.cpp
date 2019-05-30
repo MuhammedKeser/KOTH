@@ -27,6 +27,10 @@ HDC hDC;
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 Player player("Momo");
+int rowCount = 64;
+int colCount = 64;
+int ** gameMap = new int *[rowCount];
+int cellWidth, cellHeight;
 
 void MoveSelectedSprites() 
 {
@@ -39,7 +43,7 @@ void MoveSelectedSprites()
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
 			if (!curUnit)
 				continue;
-			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY());
+			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
 		}
 		std::cout << selectedSprites.size();
 
@@ -83,9 +87,7 @@ void SelectSprites()
 	}
 }
 
-int rowCount = 64;
-int colCount = 64;
-int ** gameMap = new int *[rowCount];
+
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
 {
@@ -248,6 +250,8 @@ void GenerateMap()
 		}
 	}
 
+	cellWidth = _pWallBitmap->GetWidth();
+	cellHeight = _pWallBitmap->GetHeight();
 
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
@@ -384,6 +388,9 @@ void GameStart(HWND hWindow)
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+  Horse* horse = _pGame->CreateSprite<Horse>(hDC);
+  horse->SetPosition(250,250);
+
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
@@ -428,7 +435,7 @@ void GamePaint(HDC hDC)
   //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
 
 	//Draw the tiles
-  
+  /*
   std::list<Tile*>::iterator it;
   int tileCount = 0;
   for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
@@ -446,7 +453,8 @@ void GamePaint(HDC hDC)
 	  }
 
   }
-  std::cout << "TileCount: " << tileCount << std::endl;
+  */
+  //std::cout << "TileCount: " << tileCount << std::endl;
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);
@@ -461,27 +469,19 @@ void GameCycle()
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 
- 
-  // Update the sprites
-  _pGame->UpdateSprites();
-
 
   //Update the sprite collisions
   _pGame->UpdateCollisions();
 
+  // Update the sprites
+  _pGame->UpdateSprites();
+
+  //UGLY
+  //Update the sprite collisions again, as there might be a lingering collision after updating the units
+  //_pGame->UpdateCollisions();
+
   SelectSprites();
   MoveSelectedSprites();
-
-  if (selectedSprites.size() > 0)
-  {
-	  list<Sprite*>::iterator curSprite;
-	  for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
-	  {
-		  //std::cout << "Selected!" << std::endl;
-	  }
-	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
-  }
-
 
   // Obtain a device context for repainting the game
   HWND  hWindow = _pGame->GetWindow();
