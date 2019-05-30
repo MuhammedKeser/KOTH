@@ -143,6 +143,7 @@
     <Image Include="..\..\..\Bitmaps\terrain2.bmp" />
     <Image Include="..\..\..\Bitmaps\tree.bmp" />
     <Image Include="..\..\..\Bitmaps\warriorL.bmp" />
+    <Image Include="..\..\..\Bitmaps\warriorMountedR.bmp" />
     <Image Include="..\..\..\Bitmaps\warriorR.bmp" />
     <Image Include="Bitmaps\bitmap1.bmp" />
     <Image Include="Bitmaps\bitmap12.bmp" />

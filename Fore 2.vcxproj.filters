@@ -217,6 +217,9 @@
     <Image Include="Bitmaps\femaleL.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\Bitmaps\warriorMountedR.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Fore.rc">
