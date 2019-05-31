@@ -34,7 +34,7 @@ public:
 	void ScaleTree()
 	{
 		Scale((float)((float)m_Food / (float)minFoodOnSpawn), (float)((float)m_Food /(float)minFoodOnSpawn));
-		std::cout << "Scale: " << (float)m_Food / (float)minFoodOnSpawn << std::endl;
+		//std::cout << "Scale: " << (float)m_Food / (float)minFoodOnSpawn << std::endl;
 	}
 
 private:
