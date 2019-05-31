@@ -107,6 +107,7 @@ public:
   void                UpdateSprites();
   void                CleanupSprites();
   void				  UpdateCollisions();
+  void				  DeleteSprites();//Checks to see if we have any sprites to delete. Does not do so for static sprites.
 
   //TODO->I cant move this into the CPP file. Why???
   template <typename T>

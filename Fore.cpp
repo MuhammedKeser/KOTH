@@ -34,7 +34,7 @@ int cellWidth, cellHeight;
 
 void MoveSelectedSprites() 
 {
-	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT) &&
+	if (Input::KeyPressed(InputKeys::KEY::MOUSERIGHT) &&
 		selectedSprites.size() > 0)
 	{
 		list<Sprite*>::iterator curSprite;
@@ -482,6 +482,8 @@ void GameCycle()
 
   SelectSprites();
   MoveSelectedSprites();
+
+  _pGame->DeleteSprites();
 
   // Obtain a device context for repainting the game
   HWND  hWindow = _pGame->GetWindow();

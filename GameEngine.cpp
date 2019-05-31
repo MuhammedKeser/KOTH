@@ -454,6 +454,20 @@ void GameEngine::UpdateCollisions()
 	}
 }
 
+void GameEngine::DeleteSprites()
+{
+	
+
+	for (std::vector<Sprite*>::reverse_iterator siSprite = m_vSprites.rbegin(); siSprite != m_vSprites.rend(); ++siSprite)
+	{
+		if ((*siSprite)->DeletionIsPending())
+		{
+			m_vSprites.erase(std::next(siSprite).base());
+			break;
+		}
+	}
+}
+
 //-----------------------------------------------------------------
 // Game Engine Helper Methods
 //-----------------------------------------------------------------

@@ -52,6 +52,7 @@ protected:
   RECT          m_rcBounds;
   BOUNDSACTION  m_baBoundsAction;
   BOOL          m_bHidden;
+  BOOL			m_deletionPending = FALSE;
 protected:
 	//Virtual variable used to set up bitmaps
 	UINT BITMAP_ID = IDB_GOLFBALL;
@@ -86,6 +87,7 @@ public:
   BOOL                  IsPointInside(int x, int y);
   BOOL                  TestCollision(Sprite* pTestSprite);
   void					Scale(float x,float y);
+  void					MarkForDeletion();//Marks a sprite for deletion the next frame
 
   // Accessor Methods
   void	  SetBitmap(Bitmap* bitmap) { m_pBitmap = bitmap; };
@@ -109,6 +111,7 @@ public:
   int     GetHeight()               { return m_pBitmap->GetHeight(); };
   const std::list<Sprite*>& GetCollisionList() { return collisionList; };
   void		AddSpriteToCollisionList(Sprite* collidingSprite) { collisionList.push_back(collidingSprite); };
+  BOOL		DeletionIsPending() { return m_deletionPending; };
 
   //Collision Methods
   virtual void OnCollisionEnter(Sprite* otherSprite) {};

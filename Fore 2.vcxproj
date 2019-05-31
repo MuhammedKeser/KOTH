@@ -101,6 +101,7 @@
     <ClCompile Include="Gatherer.cpp" />
     <ClCompile Include="Horse.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TreeSprite.cpp" />
     <ClCompile Include="Unit.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Gatherer.h" />
     <ClInclude Include="Horse.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
