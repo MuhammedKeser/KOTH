@@ -20,6 +20,16 @@ void Warrior::OnCollisionStay(Sprite * otherSprite)
 void Warrior::Update()
 {
 	Unit::Update();
+	std::list<Sprite*> neighborSprites = GetNeighboringCells();
+
+	std::list<Sprite*>::iterator siSprite;
+	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
+	{
+		if (Unit* neighborUnit = dynamic_cast<Unit*>(*siSprite))
+		{
+			Fight(neighborUnit);
+		}
+	}
 	HandleDeath();
 }
 

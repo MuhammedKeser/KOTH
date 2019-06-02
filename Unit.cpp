@@ -436,7 +436,12 @@ void Unit::MoveToPoint()
 	if (m_destination.x != -1 && m_destination.y != -1)
 	{
 		//DEBUG
+		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
+		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 		SetPosition(m_destination.x,m_destination.y);
+		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 
 		//Pull the next destination from your pathfinding Queue
 		//Find the velocity required to reach it, and apply it here.
