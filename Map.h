@@ -18,8 +18,8 @@ protected:
 //Methods
 public:
 	static void SetGrid(int ** grid) { m_map.m_grid = grid; }
-	static void SetGridCell(int xIndex, int yIndex, int value) { m_map.m_grid[xIndex][yIndex] = value; }
-	static const int& GetGridCell(int xIndex, int yIndex) { return m_map.m_grid[xIndex][yIndex]; }
+	static void SetGridCell(int yIndex, int xIndex, int value) { m_map.m_grid[yIndex][xIndex] = value; }
+	static const int& GetGridCell(int yIndex,int xIndex) { return m_map.m_grid[yIndex][xIndex]; }
 	static const int& GetHeight() { return m_map.m_height; }
 	static const int& GetWidth() { return m_map.m_width; }
 

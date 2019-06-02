@@ -11,22 +11,26 @@ void Warrior::OnCollisionExit(Sprite * otherSprite)
 
 void Warrior::OnCollisionStay(Sprite * otherSprite)
 {
-	Fight(otherSprite);
+	if (Unit* otherUnit = dynamic_cast<Unit*>(otherSprite))
+	{
+		Fight(otherUnit);
+	}
 }
 
 void Warrior::Update()
 {
 	Unit::Update();
+	HandleDeath();
 }
 
 //TODO
 //1.We're going to be using a grid-based map. Turn this from collision-based attacking to neighboring cell attacking
 //ALSO perform a player check to make sure you're not attacking your own units
 //2.If it's a gatherer, win it over instead of fighting it
-void Warrior::Fight(Sprite* otherSprite)
+void Warrior::Fight(Unit* otherUnit)
 {
 
-	if (Unit* otherUnit = dynamic_cast<Unit*>(otherSprite))
+	if (otherUnit)
 	{
 		if (otherUnit->GetStatus() != UNIT_STATUS::DEAD
 			&& m_timeOfLastAttack+m_attackInterval*1000<GetTickCount())
@@ -45,7 +49,14 @@ void Warrior::Fight(Sprite* otherSprite)
 void Warrior::HandleDeath()
 {
 	//If your health is below a certain threshold...
-	//1.Set your status to dead.
-	//2.Perhaps play a death animation.
-	//3. Upon the end of the death animation, Remove yourself from the player's list of units, and the gameEngine's sprite list
+	if (m_health <= 0)
+	{
+		std::cout << "DEAD-O" << std::endl;
+		//1.Mark your status for deletion.
+		MarkForDeletion();
+
+		//2.Perhaps play a death animation.
+		//3. Upon the end of the death animation, Remove yourself from the player's list of units, and the gameEngine's sprite list
+
+	}
 }

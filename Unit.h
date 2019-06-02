@@ -2,6 +2,9 @@
 #include "Sprite.h"
 class Player;
 #include "Player.h"
+#include <vector>
+#include "Map.h"
+
 
 enum UNIT_STATUS 
 {
@@ -18,7 +21,7 @@ public:
 	Unit(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
 	Unit(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :
 		Sprite(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, BITMAP_ID, baBoundsAction) {};
-	virtual ~Unit() {};
+	virtual ~Unit();
 	BOOL isSelected = false;
 
 	//Functions

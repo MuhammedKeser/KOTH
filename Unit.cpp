@@ -1,5 +1,21 @@
 #include "Unit.h"
 
+Unit::~Unit(void)
+{
+	if (m_player)
+	{
+		for (std::list<Unit*>::reverse_iterator siUnit = m_player->m_Units.rbegin(); siUnit != m_player->m_Units.rend(); ++siUnit)
+		{
+			if ((*siUnit)->DeletionIsPending())
+			{
+				m_player->m_Units.erase(std::next(siUnit).base());
+				break;
+			}
+		}
+	}
+	
+}
+
 void Unit::Update()
 {
 	MoveToPoint();
@@ -367,6 +383,14 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 {
 	int destinationX = floor(x/cellWidth);
 	int destinationY = floor(y/cellHeight);
+
+	std::cout << "Selected Cell Value: " << Map::GetGridCell(destinationY, destinationX) << std::endl;
+
+	if (Map::GetGridCell(destinationY, destinationX) != 0)
+	{
+		std::cout << "ERROR IN UNIT.CPP - SETDESTINATION: The selected destination is already filled." << std::endl;
+		return;
+	}	
 
 	std::cout << "X: " << destinationX << " Y: " << destinationY << std::endl;
 	m_destinationIndex = POINT{ destinationX,destinationY};

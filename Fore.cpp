@@ -27,6 +27,7 @@ HDC hDC;
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 Player player("Momo");
+Player player2("ASP");
 int rowCount = 64;
 int colCount = 64;
 //int ** gameMap = new int *[rowCount];
@@ -232,6 +233,7 @@ void GameStart(HWND hWindow)
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+  player2.SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
   Horse* horse = _pGame->CreateSprite<Horse>(hDC);
   horse->SetPosition(250,250);
 
