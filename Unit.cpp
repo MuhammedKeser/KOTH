@@ -407,6 +407,29 @@ void Unit::Pathfind(int ** map)
 	}
 }
 
+std::list<Sprite*> Unit::GetNeighboringCells()
+{
+	std::list<Sprite*> ret;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			//Only allow up, down, left and right
+			if (abs(i + j) != 1)
+				continue;
+			//Only Look for positions that are in bounds
+			int neighboringYIndex = i + GetYIndex(Map::GetCellHeight());
+			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
+			if (neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
+				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
+				continue;
+			ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
+		}
+	}
+
+	return ret;
+	
+}
 
 void Unit::MoveToPoint()
 {

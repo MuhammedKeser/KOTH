@@ -1,6 +1,6 @@
 #include "Map.h"
 
-Map Map::m_map = Map(0,0);
+Map Map::m_map = Map(0,0,0,0);
 
 
 void Map::ProceduralGeneration()
@@ -12,6 +12,10 @@ void Map::ProceduralGeneration()
 	for (int i = 0; i < rowCount; i++)
 	{
 		m_map.m_grid[i] = (int*)calloc(colCount, sizeof(int));
+	}
+	for (int i = 0; i < rowCount; i++)
+	{
+		m_map.m_spriteGrid[i] = (Sprite**)calloc(colCount, sizeof(Sprite*));
 	}
 
 	//Fill in the borders

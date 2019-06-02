@@ -92,9 +92,9 @@ void SelectSprites()
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
 {
-	Map::CreateMap(64,64);
 	cellWidth = _pWallBitmap->GetWidth();
 	cellHeight = _pWallBitmap->GetHeight();
+	Map::CreateMap(64, 64,cellWidth,cellHeight);
 
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
@@ -111,6 +111,7 @@ void GenerateMap()
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
 				newSprite->name = "WALL";
+				Map::SetSpriteGridCell(i,j,newSprite);
 			}
 
 			if (Map::GetGridCell(i, j) == 2)
@@ -120,6 +121,7 @@ void GenerateMap()
 				newSprite->SetPosition(rect);
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
+				Map::SetSpriteGridCell(i, j, newSprite);
 			}
 
 			if (Map::GetGridCell(i, j) == 0 || Map::GetGridCell(i, j) == 2)
