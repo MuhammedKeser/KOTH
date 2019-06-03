@@ -160,6 +160,11 @@ void Sprite::Scale(float x,float y)
 	CalcCollisionRect();
 }
 
+void Sprite::MarkForDeletion()
+{
+	m_deletionPending = true;
+}
+
 SPRITEACTION Sprite::UpdatePosition()
 {
 	// Update the position

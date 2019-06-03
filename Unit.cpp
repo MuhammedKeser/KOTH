@@ -1,5 +1,26 @@
 #include "Unit.h"
 
+Unit::~Unit(void)
+{
+	//Remove it from the player list
+	if (m_player)
+	{
+		for (std::list<Unit*>::reverse_iterator siUnit = m_player->m_Units.rbegin(); siUnit != m_player->m_Units.rend(); ++siUnit)
+		{
+			if ((*siUnit)->DeletionIsPending())
+			{
+				m_player->m_Units.erase(std::next(siUnit).base());
+				break;
+			}
+		}
+	}
+
+	//Remove it from the map
+	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
+	Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
+	
+}
+
 void Unit::Update()
 {
 	MoveToPoint();
@@ -368,6 +389,14 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 	int destinationX = floor(x/cellWidth);
 	int destinationY = floor(y/cellHeight);
 
+	std::cout << "Selected Cell Value: " << Map::GetGridCell(destinationY, destinationX) << std::endl;
+
+	if (Map::GetGridCell(destinationY, destinationX) != 0)
+	{
+		std::cout << "ERROR IN UNIT.CPP - SETDESTINATION: The selected destination is already filled." << std::endl;
+		return;
+	}	
+
 	std::cout << "X: " << destinationX << " Y: " << destinationY << std::endl;
 	m_destinationIndex = POINT{ destinationX,destinationY};
 	m_destination = POINT{ long(destinationX*cellWidth)+long(floor(cellWidth/2))-long(GetWidth()/2),long(destinationY*cellHeight) + long(floor(cellHeight / 2))-long(GetHeight()/2)};
@@ -383,13 +412,41 @@ void Unit::Pathfind(int ** map)
 	}
 }
 
+std::list<Sprite*> Unit::GetNeighboringCells()
+{
+	std::list<Sprite*> ret;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			//Only allow up, down, left and right
+			if (abs(i + j) != 1)
+				continue;
+			//Only Look for positions that are in bounds
+			int neighboringYIndex = i + GetYIndex(Map::GetCellHeight());
+			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
+			if (neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
+				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
+				continue;
+			ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
+		}
+	}
+
+	return ret;
+	
+}
 
 void Unit::MoveToPoint()
 {
 	if (m_destination.x != -1 && m_destination.y != -1)
 	{
 		//DEBUG
+		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
+		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 		SetPosition(m_destination.x,m_destination.y);
+		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 
 		//Pull the next destination from your pathfinding Queue
 		//Find the velocity required to reach it, and apply it here.

@@ -45,11 +45,16 @@ void Horse::OnCollisionEnter(Sprite * otherSprite)
 
 	if (Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite))
 	{
-		//Have the warrior mount the horse
-		otherWarrior->SetIsMounted(true);
+		//If we're not marked for deletion...
+		if (!m_deletionPending)
+		{
+			//...have the warrior mount the horse...
+			otherWarrior->SetIsMounted(true);
 
-		//Delete this horse
-		//Delete();
+			//... and mark this horse for deletion
+			MarkForDeletion();
+		}
+		
 	}
 
 }

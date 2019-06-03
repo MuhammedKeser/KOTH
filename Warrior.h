@@ -21,7 +21,7 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 	void Update() override;
-	void Fight(Sprite* otherSprite);
+	void Fight(Unit* otherUnit);
 	void HandleDeath();
 
 	//Getters/Setters
@@ -37,11 +37,9 @@ public:
 
 protected:
 	//members
-	int m_damage = 4;
+	int m_damage = 20;
 	float m_attackInterval = 1.0f;//The time (in seconds) between attacks
 	int m_timeOfLastAttack = -1;
 	bool m_isMounted = false;
 	Bitmap*       m_pMountedBitmap;
-
-
 };

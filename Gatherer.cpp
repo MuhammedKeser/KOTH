@@ -39,6 +39,17 @@ void Gatherer::SapTree(TreeSprite* tree)
 void Gatherer::Update()
 {
 	Unit::Update();
+	std::list<Sprite*> neighborSprites = GetNeighboringCells();
+
+	std::list<Sprite*>::iterator siSprite;
+	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
+	{
+		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))
+		{
+			SapTree(neighborTree);
+		}
+	}
+
 	/*
 	std::cout	<< "Left: " + m_rcCollision.left	<<std::endl
 				<< "Top: " + m_rcCollision.top		<<std::endl
