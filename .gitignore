@@ -69,6 +69,11 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.sln
+*.vcproj
+*.vcxproj
+*.vcxproj.filters
+
 
 # Chutzpah Test files
 _Chutzpah*
