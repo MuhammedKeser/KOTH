@@ -26,6 +26,7 @@
 #define IDI_FORE_SM                     1001
 #define IDB_FOREST                      2000
 #define IDB_GOLFBALL                    2001
+#define IDB_TARGET                      2002
 
 // Next default values for new objects
 // 

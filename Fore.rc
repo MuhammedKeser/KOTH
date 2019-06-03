@@ -59,6 +59,8 @@ IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
 
 IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
 
+IDB_TARGET           	BITMAP                  "Bitmaps\\target.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

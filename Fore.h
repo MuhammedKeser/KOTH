@@ -49,9 +49,11 @@ GameEngine* _pGame;
 HDC         _hOffscreenDC;
 HBITMAP     _hOffscreenBitmap;
 Bitmap*     _pForestBitmap;
+Bitmap*		_pTargetBitmap;
 Bitmap*     _pGolfBallBitmap;
 Bitmap*		_pWallBitmap;
 Sprite*     _pDragSprite;
+static Sprite*		_pTargetSprite;
 
 int **map;
 int maxrow = 15, maxcol = 21;  // 6*9

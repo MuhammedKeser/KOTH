@@ -108,6 +108,9 @@ public:
   void                CleanupSprites();
   void				  UpdateCollisions();
 
+  //TODO-> AI
+  void                AI();
+
   //TODO->I cant move this into the CPP file. Why???
   template <typename T>
   T* CreateSprite(HDC hDC)

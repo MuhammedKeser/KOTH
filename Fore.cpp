@@ -19,7 +19,8 @@ std::list<Sprite*> selectedSprites;
 int originMouseX = -1;
 int originMouseY = -1;
 bool selectMode = false;
-RECT    selectBounds = { 0, 0, 600, 400 };
+RECT selectBounds = { 0, 0, 600, 400 };
+RECT bounds = { -1000,-1000,10000,10000 };
 Sprite* selectSprite;
 Bitmap* _pSelectBitmap;
 HDC hDC;
@@ -43,7 +44,7 @@ void MoveSelectedSprites()
 		}
 		std::cout << selectedSprites.size();
 
-		selectedSprites.clear();
+		//selectedSprites.clear();
 	}
 }
 
@@ -54,13 +55,13 @@ void SelectSprites()
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
-		RECT bounds = { -1000,-1000,10000,10000 };
+		bounds = { -1000,-1000,10000,10000 };
 		selectSprite = new Sprite(_pSelectBitmap, bounds, BA_WRAP);
 		selectSprite->SetPosition(Input::GetWorldMouseX(), Input::GetWorldMouseY());
 		selectSprite->Scale(1.0f, 1.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
 	}
-
+	
 	if (selectMode)
 	{
 		if (Input::KeyHeld(InputKeys::KEY::MOUSELEFT))
@@ -71,9 +72,9 @@ void SelectSprites()
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
 		}
-
+		
 		if (Input::KeyReleased(InputKeys::KEY::MOUSELEFT))
-		{
+		{	
 			selectMode = false;
 			originMouseX = -1;
 			originMouseY = -1;
@@ -292,7 +293,7 @@ void GenerateMap()
 BOOL GameInitialize(HINSTANCE hInstance)
 {
   // Create the game engine
-  _pGame = new GameEngine(hInstance, TEXT("Fore 2"), TEXT("Fore 2"), IDI_FORE, IDI_FORE_SM, 21*50, 15*50);
+  _pGame = new GameEngine(hInstance, TEXT("King of the Hill"), TEXT("King of the Hill"), IDI_FORE, IDI_FORE_SM, 21*50, 15*50);
   if (_pGame == NULL)
     return FALSE;
 
@@ -326,6 +327,7 @@ void GameStart(HWND hWindow)
 	hDC = GetDC(hWindow);
 	_pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);
 	_pGolfBallBitmap = new Bitmap(hDC, IDB_GOLFBALL, _hInstance);
+	_pTargetBitmap = new Bitmap(hDC, IDB_TARGET, _hInstance);
 	_pSelectBitmap = new Bitmap(hDC, IDB_SELECT, _hInstance);
 	_pWallBitmap = new Bitmap(hDC, IDB_WALL1, _hInstance);
 	_pGrassBitmaps[0] =  new Bitmap(hDC, IDB_GRASS1, _hInstance) ;
@@ -360,6 +362,14 @@ void GameStart(HWND hWindow)
 
   // Set the initial drag info
   _pDragSprite = NULL;
+
+  // Create the target, pow, and guy sprites
+  _pTargetSprite = new Sprite(_pTargetBitmap, bounds, BA_STOP);
+  _pTargetSprite->SetZOrder(4);
+  _pGame->AddSprite(_pTargetSprite);
+  _pTargetSprite->SetHidden(TRUE);
+
+
   
   //DEBUG
   //Gatherer* gatherer = new Gatherer(gathererBitmap);
@@ -384,6 +394,9 @@ void GameStart(HWND hWindow)
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+
+  player.SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
+  player.SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
@@ -462,25 +475,31 @@ void GameCycle()
 	_pGame->HandleCameraMovement(&camera);
 
  
-  // Update the sprites
-  _pGame->UpdateSprites();
+	// Update the sprites
+	_pGame->UpdateSprites();
 
 
-  //Update the sprite collisions
-  _pGame->UpdateCollisions();
+	//Update the sprite collisions
+	_pGame->UpdateCollisions();
 
-  SelectSprites();
-  MoveSelectedSprites();
 
+	//Update Gatherer positions by using AI
+	//_pGame->AI();
+
+	SelectSprites();
+	MoveSelectedSprites();
+
+	/*
   if (selectedSprites.size() > 0)
-  {
+  {	
+	  
 	  list<Sprite*>::iterator curSprite;
 	  for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
 	  {
 		  //std::cout << "Selected!" << std::endl;
 	  }
 	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
-  }
+  }*/
 
 
   // Obtain a device context for repainting the game
@@ -510,15 +529,33 @@ void HandleKeys()
 
 void MouseButtonDown(int x, int y, BOOL bLeft)
 {
+
+	if (bLeft)
+	{
+		// Temporarily hide the target and pow sprites
+		_pTargetSprite->SetHidden(FALSE);
+	}
+
+
 }
 
 void MouseButtonUp(int x, int y, BOOL bLeft)
 {
+	if (bLeft)
+	{
+		// Temporarily hide the target and pow sprites
+		_pTargetSprite->SetHidden(TRUE);
+	}
+
 }
 
 void MouseMove(int x, int y)
 {
 	Input::UpdateMousePosition(x, y,&camera);
+
+	// Track the mouse with the target sprite
+	_pTargetSprite->SetPosition(x - (_pTargetSprite->GetWidth() / 2), y - (_pTargetSprite->GetHeight() / 2));
+
 }
 
 void HandleJoystick(JOYSTATE jsJoystickState)

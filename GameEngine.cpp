@@ -8,7 +8,6 @@
 //-----------------------------------------------------------------
 #include "GameEngine.h"
 
-
 //-----------------------------------------------------------------
 // Static Variable Initialization
 //-----------------------------------------------------------------
@@ -303,6 +302,8 @@ void GameEngine::HandleCameraMovement(Camera* camera)
 	if (inputSent)
 	{
 		camera->SetPosition(cameraOldPosition.x + increment.x, cameraOldPosition.y + increment.y);
+		// Track the mouse with the target sprite
+		//Fore._pTargetSprite->SetPosition(x - (_pTargetSprite->GetWidth() / 2), y - (_pTargetSprite->GetHeight() / 2));
 	}
 
 }
@@ -518,6 +519,69 @@ void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
   // No collision
   //return FALSE;
 }
+/*
+
+//-----------------------------------------------------------------
+// Game Engine Helper Methods
+//-----------------------------------------------------------------
+void GameEngine::AI()
+{
+
+	// See if the sprite has collided with any other sprites
+	vector<Sprite*>::iterator siSprite;
+	int debug = 0;
+	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	{
+		// Make sure not to check for collision with itself
+		if (pTestSprite == (*siSprite))
+			continue;
+
+		// Test the collision
+		if (pTestSprite->TestCollision(*siSprite))
+		{
+			//Run each sprites' collision code, depending on whether or not this is the first frame of their collision or not
+			//Used to check if this collision is a 'stay' or 'enter' collision
+			bool isOnStayCollision = false;
+
+			const std::list<Sprite*>& collisionList = pTestSprite->GetCollisionList();
+
+			//Check if they exist in each others' collision lists - i.e., were already in a collision
+			std::list<Sprite*>::const_iterator it = collisionList.begin();
+			for (int i = 0; i < collisionList.size(); i++)
+			{
+				if ((*it) == (*siSprite))
+				{
+					isOnStayCollision = true;
+					break;
+				}
+				std::advance(it, 1);
+			}
+
+
+
+			//Run the appropriate event
+			if (isOnStayCollision)
+				pTestSprite->OnCollisionStay(*siSprite);
+			else
+			{
+				pTestSprite->AddSpriteToCollisionList(*siSprite);
+				pTestSprite->OnCollisionEnter(*siSprite);
+			}
+
+
+
+			// Return the detected collision, and set their velocities
+			//bool returnValue = CheckCollision((*siSprite), pTestSprite);
+			//return true;
+		}
+
+
+
+	}
+
+	// No collision
+	//return FALSE;
+}*/
 
 void GameEngine::CleanupSprites()
 {
