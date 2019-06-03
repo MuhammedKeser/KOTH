@@ -48,7 +48,7 @@ void MoveSelectedSprites()
 		}
 		std::cout << selectedSprites.size();
 
-		selectedSprites.clear();
+		//selectedSprites.clear();
 	}
 }
 
@@ -56,6 +56,7 @@ void SelectSprites()
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
 	{
+		selectedSprites.clear();
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
