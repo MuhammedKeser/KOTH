@@ -20,6 +20,7 @@
 #include "Warrior.h"
 #include "Obstacle.h"
 #include "Tile.h"
+#include "Horse.h"
 //#include <stack>
 //#include <queue>
 

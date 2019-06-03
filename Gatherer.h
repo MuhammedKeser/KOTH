@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Resource.h"
 #include "TreeSprite.h"
-
+#include "Warrior.h"
 class Gatherer : public Unit
 {
 public:
@@ -20,7 +20,7 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 	void Update() override;
-
+	void RequestWinOver(Warrior* warrior);
 private:
 	void SapTree(TreeSprite* tree);
 	

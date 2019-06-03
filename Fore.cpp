@@ -28,6 +28,10 @@ HDC hDC;
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 Player player("Momo");
+int rowCount = 64;
+int colCount = 64;
+int ** gameMap = new int *[rowCount];
+int cellWidth, cellHeight;
 
 void MoveSelectedSprites() 
 {
@@ -40,7 +44,7 @@ void MoveSelectedSprites()
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
 			if (!curUnit)
 				continue;
-			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY());
+			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
 		}
 		std::cout << selectedSprites.size();
 
@@ -61,7 +65,7 @@ void SelectSprites()
 		selectSprite->Scale(1.0f, 1.0f);
 		_pGame->AddSprite((Sprite*)selectSprite);
 	}
-	
+
 	if (selectMode)
 	{
 		if (Input::KeyHeld(InputKeys::KEY::MOUSELEFT))
@@ -72,7 +76,7 @@ void SelectSprites()
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
 		}
-		
+
 		if (Input::KeyReleased(InputKeys::KEY::MOUSELEFT))
 		{	
 			selectMode = false;
@@ -249,6 +253,8 @@ void GenerateMap()
 		}
 	}
 
+	cellWidth = _pWallBitmap->GetWidth();
+	cellHeight = _pWallBitmap->GetHeight();
 
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
@@ -394,6 +400,9 @@ void GameStart(HWND hWindow)
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+  Horse* horse = _pGame->CreateSprite<Horse>(hDC);
+  horse->SetPosition(250,250);
+
 
   player.SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
@@ -441,7 +450,7 @@ void GamePaint(HDC hDC)
   //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
 
 	//Draw the tiles
-  
+  /*
   std::list<Tile*>::iterator it;
   int tileCount = 0;
   for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
@@ -459,7 +468,8 @@ void GamePaint(HDC hDC)
 	  }
 
   }
-  std::cout << "TileCount: " << tileCount << std::endl;
+  */
+  //std::cout << "TileCount: " << tileCount << std::endl;
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);
@@ -474,32 +484,26 @@ void GameCycle()
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 
- 
-	// Update the sprites
-	_pGame->UpdateSprites();
+
+  //Update the sprite collisions
+  _pGame->UpdateCollisions();
+
+  // Update the sprites
+  _pGame->UpdateSprites();
 
 
-	//Update the sprite collisions
-	_pGame->UpdateCollisions();
+  SelectSprites();
+  MoveSelectedSprites();
 
-
-	//Update Gatherer positions by using AI
-	//_pGame->AI();
-
-	SelectSprites();
-	MoveSelectedSprites();
-
-	/*
   if (selectedSprites.size() > 0)
-  {	
-	  
+  {
 	  list<Sprite*>::iterator curSprite;
 	  for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
 	  {
 		  //std::cout << "Selected!" << std::endl;
 	  }
 	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
-  }*/
+  }
 
 
   // Obtain a device context for repainting the game

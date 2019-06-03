@@ -493,9 +493,7 @@ void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 			}
 			std::advance(it, 1);
 		}
-
 		
-
 		//Run the appropriate event
 		if (isOnStayCollision)
 			pTestSprite->OnCollisionStay(*siSprite);
