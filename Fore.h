@@ -21,8 +21,11 @@
 #include "Obstacle.h"
 #include "Tile.h"
 #include "Horse.h"
+#include "Map.h"
 //#include <stack>
 //#include <queue>
+//DEBUG
+#include "StateHandler_Gatherer.h"
 
 class coord {
 public:

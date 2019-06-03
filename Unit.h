@@ -2,6 +2,18 @@
 #include "Sprite.h"
 class Player;
 #include "Player.h"
+#include <vector>
+#include "Map.h"
+#include "MapSprite.h"
+#include <cmath>
+
+/*
+	TODO:
+	Moving the position of a sprite requires the map to be updated.
+
+
+
+*/
 
 enum UNIT_STATUS 
 {
@@ -9,16 +21,16 @@ enum UNIT_STATUS
 	ALIVE
 };
 
-class Unit : public Sprite
+class Unit : public MapSprite
 {
 public:
 	// Constructor(s)/Destructor
-	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) :Sprite(hDC, hInstance, BITMAP_ID) {};
-	Unit(Bitmap* pBitmap, UINT BITMAP_ID) :Sprite(pBitmap, BITMAP_ID) {};
-	Unit(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
+	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) :MapSprite(hDC, hInstance, BITMAP_ID) {};
+	Unit(Bitmap* pBitmap, UINT BITMAP_ID) :MapSprite(pBitmap, BITMAP_ID) {};
+	Unit(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : MapSprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
 	Unit(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :
-		Sprite(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, BITMAP_ID, baBoundsAction) {};
-	virtual ~Unit() {};
+		MapSprite(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, BITMAP_ID, baBoundsAction) {};
+	virtual ~Unit();
 	BOOL isSelected = false;
 
 	//Functions
@@ -46,10 +58,10 @@ public:
 	void OnCollisionEnter(Sprite* otherSprite) override;
 	void OnCollisionStay(Sprite* otherSprite) override;
 	void PreventOverlap(Sprite* otherSprite);
-	int GetXIndex(int mapCellWidth) { return floor(((m_rcPosition.left + m_rcPosition.right) / 2) / mapCellWidth); };
-	int GetYIndex(int mapCellHeight) { return floor(((m_rcPosition.top + m_rcPosition.bottom) / 2) / mapCellHeight); };
+	
 	int GetStatus() { return status; };
 	void SetStatus(UNIT_STATUS statusToSet) { status = statusToSet; };
 	int GetHealth() { return m_health; };
 	void SetHealth(int newHealth) { m_health = newHealth; };
+	std::list<Sprite*> GetNeighboringCells();
 };

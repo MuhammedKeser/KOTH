@@ -28,14 +28,17 @@ HDC hDC;
 int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 Player player("Momo");
+Player player2("ASP");
 int rowCount = 64;
 int colCount = 64;
-int ** gameMap = new int *[rowCount];
+//int ** gameMap = new int *[rowCount];
 int cellWidth, cellHeight;
+//DEBUG
+StateHandler_Gatherer* debugStateHandler;
 
 void MoveSelectedSprites() 
 {
-	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT) &&
+	if (Input::KeyPressed(InputKeys::KEY::MOUSERIGHT) &&
 		selectedSprites.size() > 0)
 	{
 		list<Sprite*>::iterator curSprite;
@@ -56,6 +59,7 @@ void SelectSprites()
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
 	{
+		selectedSprites.clear();
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
@@ -91,175 +95,17 @@ void SelectSprites()
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
 {
-	//Initialize the map
-	for (int i = 0; i < rowCount; i++)
-	{
-		gameMap[i] = (int*)calloc(colCount, sizeof(int));
-	}
-
-	//Fill in the borders
-	for (int i = 0; i < rowCount; i++)
-	{
-		for (int j = 0; j < colCount; j++)
-		{
-			if (i == 0 || i == rowCount - 1 || j == 0 || j == colCount - 1)
-				gameMap[i][j] = 1;
-		}
-	}
-
-	//Provide center obstacles
-	for (int i = 0; i < rowCount; i++)
-	{
-		for (int j = 0; j < colCount; j++)
-		{
-			//The closer it is to the midpoint to the center, the higher the likelyhood
-			if (rand() % (abs(abs((i - rowCount / 2)) - rowCount / 4) + 1) < 1
-				&& rand() % (abs(abs((j - colCount / 2)) - colCount / 4) + 1) < 1)
-				gameMap[i][j] = 1;
-
-			//The closer it is to the center, the higher the likelyhood
-			if (rand() % (abs(i - rowCount / 2) + 1) < 1
-				&& rand() % (abs(j - colCount / 2) + 1) < 1)
-				gameMap[i][j] = 1;
-		}
-	}
-
-	//todo->check 4 adjacent cells around each cell. If there's not even a single 1-valued cell, make this cell (and 3 random cells 1 cell adjacent to it) equal to 1
-
-	//Fill in with some random obstacles
-	int roundCount = 7;
-	for (int curRound = 0; curRound < roundCount; curRound++)
-	{
-		for (int i = 0; i < rowCount; i++)
-		{
-			for (int j = 0; j < colCount; j++)
-			{
-				int neighborCount = 0;
-
-				for (int neighborRow = -2; neighborRow <= 2; neighborRow++)
-				{
-					for (int neighborCol = -2; neighborCol <= 2; neighborCol++)
-					{
-						if (i + neighborRow < 0 || i + neighborRow >= rowCount
-							|| j + neighborCol < 0 || j + neighborCol >= colCount)
-							continue;
-
-						if (neighborRow == 0 && neighborCol == 0)
-							continue;
-
-						if (gameMap[i + neighborRow][j + neighborCol] == 1)
-							neighborCount++;
-
-					}
-				}
-
-				if (neighborCount > 8 && rand() % 100 > 75)
-					gameMap[i][j] = 1;
-			}
-		}
-	}
-
-	roundCount = 2;
-	for (int curRound = 0; curRound < roundCount; curRound++)
-	{
-		for (int i = 0; i < rowCount; i++)
-		{
-			for (int j = 0; j < colCount; j++)
-			{
-				int neighborCount = 0;
-
-				for (int neighborRow = -1; neighborRow <= 1; neighborRow++)
-				{
-					for (int neighborCol = -1; neighborCol <= 1; neighborCol++)
-					{
-						if (i + neighborRow < 0 || i + neighborRow >= rowCount
-							|| j + neighborCol < 0 || j + neighborCol >= colCount)
-							continue;
-
-						if (neighborRow == 0 && neighborCol == 0)
-							continue;
-
-						if (gameMap[i + neighborRow][j + neighborCol] == 1)
-							neighborCount++;
-
-					}
-				}
-
-				if (neighborCount > 2 && rand() % 100 > 75)
-					gameMap[i][j] = 1;
-			}
-		}
-	}
-
-	//Erase lone walls
-	for (int i = 0; i < rowCount; i++)
-	{
-		for (int j = 0; j < colCount; j++)
-		{
-			int neighborCount = 0;
-
-			for (int neighborRow = -1; neighborRow <= 1; neighborRow++)
-			{
-				for (int neighborCol = -1; neighborCol <= 1; neighborCol++)
-				{
-					if (i + neighborRow < 0 || i + neighborRow >= rowCount
-						|| j + neighborCol < 0 || j + neighborCol >= colCount)
-						continue;
-
-					if (neighborRow == 0 && neighborCol == 0)
-						continue;
-
-					if (gameMap[i + neighborRow][j + neighborCol] == 1)
-						neighborCount++;
-
-				}
-			}
-
-			if (neighborCount == 0)
-				gameMap[i][j] = 0;
-		}
-	}
-
-	//Create some random trees
-	for (int i = 0; i < rowCount; i++)
-	{
-		for (int j = 0; j < colCount; j++)
-		{
-			int neighborCount = 0;
-
-			for (int neighborRow = -4; neighborRow <= 4; neighborRow++)
-			{
-				for (int neighborCol = -4; neighborCol <= 4; neighborCol++)
-				{
-					if (i + neighborRow < 0 || i + neighborRow >= rowCount
-						|| j + neighborCol < 0 || j + neighborCol >= colCount)
-						continue;
-
-					if (neighborRow == 0 && neighborCol == 0)
-						continue;
-
-					if (gameMap[i + neighborRow][j + neighborCol] == 1 || gameMap[i + neighborRow][j + neighborCol] == 2)
-						neighborCount++;
-
-
-				}
-			}
-
-			if (neighborCount <=1 && rand()%100>60)
-				gameMap[i][j] = 2;
-		}
-	}
-
 	cellWidth = _pWallBitmap->GetWidth();
 	cellHeight = _pWallBitmap->GetHeight();
+	Map::CreateMap(64, 64,cellWidth,cellHeight);
 
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
 	{
 		for (int j = 0; j < colCount; j++)
 		{
-			
-			if (gameMap[i][j] == 1)
+
+			if (Map::GetGridCell(i,j) == 1)
 			{
 				Sprite* newSprite = (Sprite*)_pGame->CreateSprite<Sprite>(hDC);
 				newSprite->SetBitmap(_pWallBitmap);
@@ -268,29 +114,33 @@ void GenerateMap()
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
 				newSprite->name = "WALL";
+				Map::SetSpriteGridCell(i,j,newSprite);
 			}
 
-			if (gameMap[i][j] == 2)
+			if (Map::GetGridCell(i, j) == 2)
 			{
 				TreeSprite* newSprite = (TreeSprite*)_pGame->CreateSprite<TreeSprite>(hDC);
 				RECT rect = { newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i + 1) };
 				newSprite->SetPosition(rect);
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
+				Map::SetSpriteGridCell(i, j, newSprite);
 			}
 
-			if (gameMap[i][j] == 0 || gameMap[i][j] == 2)
+			if (Map::GetGridCell(i, j) == 0 || Map::GetGridCell(i, j) == 2)
 			{
 				Bitmap* tileBitmap = _pGrassBitmaps[rand() % grassCount];
 				RECT tilePosition = { tileBitmap->GetWidth()*j,tileBitmap->GetHeight()*i,tileBitmap->GetWidth()*(j + 1),tileBitmap->GetHeight()*(i + 1) };
 				Tile* newTile = new Tile(tilePosition, tileBitmap);
 				backgroundTiles.push_back(newTile);
 			}
-			std::cout << gameMap[i][j];
+			std::cout << Map::GetGridCell(i, j);
 		}
 		std::cout << std::endl;
 	}
 
+
+	
 }
 
 BOOL GameInitialize(HINSTANCE hInstance)
@@ -397,6 +247,7 @@ void GameStart(HWND hWindow)
 
   player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+  player2.SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
   Horse* horse = _pGame->CreateSprite<Horse>(hDC);
   horse->SetPosition(250,250);
 
@@ -409,6 +260,9 @@ void GameStart(HWND hWindow)
   {
 	  (_pGame->CreateSprite<Gatherer>(hDC));
   }*/
+
+  //DEBUG
+  debugStateHandler =new StateHandler_Gatherer();
 
 }
 
@@ -477,7 +331,9 @@ void GameCycle()
 	//Update the inputs
 	Input::UpdateKeys();
 
-	
+	//DEBUG
+	debugStateHandler->HandleTransitions();
+	debugStateHandler->currentState->Act();
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 
@@ -502,6 +358,8 @@ void GameCycle()
 	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
   }
 
+
+  _pGame->DeleteSprites();
 
   // Obtain a device context for repainting the game
   HWND  hWindow = _pGame->GetWindow();
