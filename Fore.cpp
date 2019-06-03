@@ -88,9 +88,6 @@ void SelectSprites()
 	}
 }
 
-int rowCount = 64;
-int colCount = 64;
-int ** gameMap = new int *[rowCount];
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
 {
