@@ -2,11 +2,11 @@
 #include "TreeSprite.h"
 
 
-//DEBUG
-void TreeSprite::Update() 
+void TreeSprite::Update()
 {
-	if (Input::KeyReleased(InputKeys::KEY::D))
+	if (xScale <= 0 || yScale <= 0)
 	{
+		MarkForDeletion();
 	}
 }
 

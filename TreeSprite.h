@@ -1,23 +1,26 @@
 #pragma once
-#include "Sprite.h"
+#include "MapSprite.h"
 #include <iostream>
 #include <windows.h>
 #include "Resource.h"
+#include "Map.h"
 
-class TreeSprite : public Sprite
+class TreeSprite : public MapSprite
 {
 public:
 	// Constructor(s)/Destructor
 	
-	TreeSprite(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_TREE) { InitializeTree(); };
-	TreeSprite(Bitmap* pBitmap) :Sprite(pBitmap, IDB_TREE) { InitializeTree(); };
-	TreeSprite(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, IDB_TREE, baBoundsAction) { InitializeTree(); };
+	TreeSprite(HDC hDC, HINSTANCE hInstance) :MapSprite(hDC, hInstance, IDB_TREE) { InitializeTree(); };
+	TreeSprite(Bitmap* pBitmap) :MapSprite(pBitmap, IDB_TREE) { InitializeTree(); };
+	TreeSprite(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : MapSprite(pBitmap, rcBounds, IDB_TREE, baBoundsAction) { InitializeTree(); };
 	TreeSprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :
-		Sprite(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_TREE, baBoundsAction) {
+		MapSprite(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_TREE, baBoundsAction) {
 		InitializeTree();
 	};
 	virtual void Update() override;
-	virtual ~TreeSprite() {};
+	virtual ~TreeSprite() 
+	{
+	};
 
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;

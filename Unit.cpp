@@ -2,6 +2,7 @@
 
 Unit::~Unit(void)
 {
+	//Remove it from the player list
 	if (m_player)
 	{
 		for (std::list<Unit*>::reverse_iterator siUnit = m_player->m_Units.rbegin(); siUnit != m_player->m_Units.rend(); ++siUnit)
@@ -13,6 +14,10 @@ Unit::~Unit(void)
 			}
 		}
 	}
+
+	//Remove it from the map
+	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
+	Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
 	
 }
 

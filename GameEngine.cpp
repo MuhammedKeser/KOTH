@@ -460,6 +460,7 @@ void GameEngine::DeleteSprites()
 	{
 		if ((*siSprite)->DeletionIsPending())
 		{
+			delete (*siSprite);
 			m_vSprites.erase(std::next(siSprite).base());
 			break;
 		}
