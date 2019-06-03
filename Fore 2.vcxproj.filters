@@ -13,6 +13,9 @@
       <UniqueIdentifier>{707e3d0b-3ae6-453d-9ea3-181765805efb}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Header Files\StateHandlers">
+      <UniqueIdentifier>{d88c9a36-00d8-4d3c-97e5-991881bc3db1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="Horse.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateHandler_Gatherer.cpp">
+      <Filter>Header Files\StateHandlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +97,18 @@
     </ClInclude>
     <ClInclude Include="Horse.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateHandler_Gatherer.h">
+      <Filter>Header Files\StateHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

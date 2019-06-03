@@ -32,6 +32,8 @@ int rowCount = 64;
 int colCount = 64;
 int ** gameMap = new int *[rowCount];
 int cellWidth, cellHeight;
+//DEBUG
+StateHandler_Gatherer* debugStateHandler;
 
 void MoveSelectedSprites() 
 {
@@ -410,6 +412,9 @@ void GameStart(HWND hWindow)
 	  (_pGame->CreateSprite<Gatherer>(hDC));
   }*/
 
+  //DEBUG
+  debugStateHandler =new StateHandler_Gatherer();
+
 }
 
 void GameEnd()
@@ -477,7 +482,9 @@ void GameCycle()
 	//Update the inputs
 	Input::UpdateKeys();
 
-	
+	//DEBUG
+	debugStateHandler->HandleTransitions();
+	debugStateHandler->currentState->Act();
 	//Handle the input keys
 	_pGame->HandleCameraMovement(&camera);
 

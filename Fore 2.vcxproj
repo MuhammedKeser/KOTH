@@ -102,6 +102,7 @@
     <ClCompile Include="Horse.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StateHandler_Gatherer.cpp" />
     <ClCompile Include="TreeSprite.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Warrior.cpp" />
@@ -118,7 +119,11 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateHandler.h" />
+    <ClInclude Include="StateHandler_Gatherer.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Transition.h" />
     <ClInclude Include="TreeSprite.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Warrior.h" />
